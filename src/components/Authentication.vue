@@ -129,11 +129,11 @@ export default {
         }
 
 
-        // fetch('http://localhost:8080/carpool-be/users')
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //       console.log(data)
-        // })
+        fetch('http://localhost:8080/carpool-be/users')
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data)
+        })
 
         // await auth.signInWithEmailAndPassword(email, password) ???
         router.push({ path: "/tabs/tab1" });
