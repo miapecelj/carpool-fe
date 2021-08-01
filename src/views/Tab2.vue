@@ -38,6 +38,9 @@
         </form>
       </div>
     </ion-content>
+
+    <RidesList v-if="routesSearched" :data="searchedData" />
+
   </ion-page>
 </template>
 
@@ -55,8 +58,10 @@ import {
   IonButton,
   IonSelect,
   IonSelectOption,
-} from "@ionic/vue"
-import { reactive } from '@vue/reactivity'
+} from "@ionic/vue";
+import { reactive, ref } from "@vue/reactivity";
+import RidesList from "@/components/RidesList.vue"
+// import { useRouter } from "vue-router";
 
 export default {
   name: "Tab2",
@@ -73,21 +78,35 @@ export default {
     IonButton,
     IonSelect,
     IonSelectOption,
+    RidesList,
   },
   setup() {
+    // const router = useRouter();
+    let routesSearched = ref(false)
+    let searchedData = ref({})
     const state = reactive({
       addressFrom: "",
       addressTo: "",
       date: "",
       numberOfPassengers: "",
-    })
+    });
     const onSubmit = () => {
-      console.log(state)
-    }
+      fetch(
+        "http://localhost:8080/carpool-be/api/ride/search?dateTime=2021-12-12%2016:00&from.latitude=44.60230610479152&from.longtitude=20.585166156851308&to.latitude=44.78714257270379&to.longtitude=20.485718939795778"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          routesSearched.value = true
+          searchedData.value = data
+        });
+    };
     return {
       onSubmit,
       state,
-    }
+      routesSearched,
+      searchedData,
+    };
   },
-}
+};
 </script>
