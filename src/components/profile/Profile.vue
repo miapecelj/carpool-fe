@@ -24,6 +24,7 @@
 <script>
 import { IonContent, IonText, IonAvatar } from "@ionic/vue";
 import { ref } from '@vue/reactivity';
+// import { useRouter } from 'vue-router';
 
 export default {
   name: "Profile",
@@ -33,12 +34,21 @@ export default {
     IonAvatar,
   },
   setup() {
+    // const router = useRouter()
     const isFinished = ref(false)
     const finishTabOpen = ref(false)
 
+    // const fetchUserData = async () => {
+      // const response = await fetch('http://localhost:8080/carpool-be/api/user?username=miapecelj')
+      // const data = await response.json()
+
+      // console.log(data)
+      // router.push({path: '/tabs/finish'})
+    // }
     return {
       isFinished,
-      finishTabOpen
+      finishTabOpen,
+      // fetchUserData,
     }
   },
 };
