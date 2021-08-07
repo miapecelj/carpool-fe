@@ -15,10 +15,8 @@
 
     <div class="main-content-container">
       <div v-if="!isFinished" class="finish-profile">
-        <ion-button size="large" color="danger">Click to finish profile</ion-button>
+        <ion-button href="/tabs/finish" size="large" color="danger">Click to finish profile</ion-button>
       </div>
-
-      
     </div>
   </ion-content>
 </template>

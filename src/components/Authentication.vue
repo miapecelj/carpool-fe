@@ -114,29 +114,39 @@ export default {
       errorMsg: "",
     });
 
-    
-
     const signInWithEmailAndPassword = (email, password) => {
       try {
         if (!email || !password) {
           state.errorMsg = "Email and password required";
-          return
+          return;
         }
 
-        if(email !== 'djole@djole' && password !== 'djole') {
-          state.errorMsg = "No user with that email and password"
-          return
-        }
+        // if(email !== 'djole@djole' && password !== 'djole') {
+        //   state.errorMsg = "No user with that email and password"
+        //   return
+        // }
 
+        var payload = {
+          email: email,
+          password: password,
+        };
 
-        fetch('http://localhost:8080/carpool-be/users')
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data)
+        fetch("http://localhost:8080/carpool-be/api/user/authenticate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         })
-
+          .then((response) => response.json())
+          .then((data) => {
+            window.localStorage.setItem("jwt", data.jwt);
+            router.push({ path: "/tabs/tab1" });
+          })
+          .catch(() => {
+            state.errorMsg = "No user with such email and password."
+          });
         // await auth.signInWithEmailAndPassword(email, password) ???
-        router.push({ path: "/tabs/tab1" });
       } catch (error) {
         state.errorMsg = error.message;
       }
@@ -148,7 +158,6 @@ export default {
           state.errorMsg = "Name, email and password required";
           return;
         }
-
 
         // const authRes = await auth.createUserWithEmailAndPassword(email, password)
 
@@ -163,10 +172,9 @@ export default {
       }
     };
 
-    
     const logState = () => {
-      console.log(state)
-    }
+      console.log(state);
+    };
 
     return {
       ...toRefs(state),

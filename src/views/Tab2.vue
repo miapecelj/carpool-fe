@@ -40,7 +40,6 @@
     </ion-content>
 
     <RidesList v-if="routesSearched" :data="searchedData" />
-
   </ion-page>
 </template>
 
@@ -60,7 +59,7 @@ import {
   IonSelectOption,
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
-import RidesList from "@/components/RidesList.vue"
+import RidesList from "@/components/RidesList.vue";
 // import { useRouter } from "vue-router";
 
 export default {
@@ -82,8 +81,8 @@ export default {
   },
   setup() {
     // const router = useRouter();
-    let routesSearched = ref(false)
-    let searchedData = ref({})
+    let routesSearched = ref(false);
+    let searchedData = ref({});
     const state = reactive({
       addressFrom: "",
       addressTo: "",
@@ -96,9 +95,9 @@ export default {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
-          routesSearched.value = true
-          searchedData.value = data
+          console.log(data);
+          routesSearched.value = true;
+          searchedData.value = data;
         });
     };
     return {

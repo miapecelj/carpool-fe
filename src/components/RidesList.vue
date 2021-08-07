@@ -1,7 +1,7 @@
 <template>
   <div class="rides-list">
     <h1>DISPLAY MY RIDES</h1>
-    <Ride v-for="ride in rides" :rideData="ride" :key="ride.id" />
+    <Ride v-for="ride in rides" :ride-data="ride" :key="ride.id" />
   </div>
 </template>
 
@@ -12,13 +12,17 @@ import Ride from "@/components/Ride.vue";
 
 export default {
   name: "RidesList",
-  props: ["data"],
   components: {
     Ride,
   },
+  props: {
+    data: {
+      type: Array
+    }
+  },
   setup(props) {
-    const rides = ref(props["data"]);
-
+    const rides = ref(props.data);
+    console.log(rides.value)
     // const isFinished = ref(false);
     // const finishTabOpen = ref(false);
     // return {
