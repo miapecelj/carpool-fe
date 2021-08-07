@@ -84,6 +84,9 @@ import {
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 
+// import VueJwtDecode from 'vue-jwt-decode'
+// import jwt-decode from "jwt-decode"
+
 const AuthMode = {
   SignIn: "SignIn",
   SignUp: "SignUp",
@@ -141,6 +144,7 @@ export default {
         })
           .then((response) => response.json())
           .then((data) => {
+            // console.log(VueJwtDecode.decode(data.jwt))
             window.localStorage.setItem("jwt", data.jwt);
             router.push({ path: "/tabs/tab1" });
           })
