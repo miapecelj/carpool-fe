@@ -20,14 +20,25 @@
       <ion-label position="floating"> Phone Number </ion-label>
       <ion-input v-model="data.phoneNumber"> </ion-input>
     </ion-item>
-    <ion-button type="submit" size="medium" color="success"
-      >Finish profile</ion-button
-    >
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" class="ion-text-center">
+          <ion-button type="submit" size="medium" color="success">Finish profile</ion-button>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
   </form>
 </template>
 
 <script>
-import { IonInput, IonLabel, IonItem, IonButton } from "@ionic/vue";
+import { IonInput, 
+    IonLabel,
+    IonItem, 
+    IonButton,
+    IonGrid,
+    IonRow,
+    IonCol
+    } from "@ionic/vue";
 import { reactive } from "@vue/reactivity";
 import { useRouter } from 'vue-router';
 
@@ -38,6 +49,9 @@ export default {
     IonLabel,
     IonItem,
     IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
   },
   setup() {
 

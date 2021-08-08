@@ -15,14 +15,28 @@
 
     <div class="main-content-container">
       <div v-if="!isFinished" class="finish-profile">
-        <ion-button href="/tabs/finish" size="large" color="danger">Click to finish profile</ion-button>
+          <ion-grid>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12" class="ion-text-center">
+                <ion-button href="/tabs/finish" size="large" color="danger">Click to finish profile</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
       </div>
     </div>
   </ion-content>
 </template>
 
 <script>
-import { IonContent, IonText, IonAvatar } from "@ionic/vue";
+import { 
+    IonContent, 
+    IonText, 
+    IonAvatar,     
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonButton
+  } from "@ionic/vue";
 import { ref } from '@vue/reactivity';
 // import { useRouter } from 'vue-router';
 
@@ -32,6 +46,10 @@ export default {
     IonContent,
     IonText,
     IonAvatar,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonButton
   },
   setup() {
     // const router = useRouter()

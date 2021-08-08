@@ -1,6 +1,6 @@
 <template>
   <div class="rides-list">
-    <h1>DISPLAY MY RIDES</h1>
+    <h1 align="center">DISPLAY MY RIDES</h1>
     <Ride v-for="ride in rides" :ride-data="ride" :key="ride.id" />
   </div>
 </template>
@@ -40,5 +40,6 @@ export default {
 <style>
 .rides-list {
   z-index: 10;
+  overflow: scroll;
 }
 </style>

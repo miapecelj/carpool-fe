@@ -1,45 +1,59 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content >
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Pretrazi</ion-title>
+          <ion-title size="large">Search</ion-title>
         </ion-toolbar>
       </ion-header>
       <div>
         <form @submit.prevent="onSubmit">
           <ion-item>
-            <ion-label position="stacked">Polazim od</ion-label>
+            <ion-label>From</ion-label>
             <ion-input v-model="addressFrom"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Idem u</ion-label>
+            <ion-label>To</ion-label>
             <ion-input v-model="addressTo"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>MM DD YY</ion-label>
+            <ion-label>Date</ion-label>
             <ion-datetime
               v-model="date"
-              display-format="MM DD YY"
-              placeholder="Datum polaska"
+              display-format="DD MM YYYY"
+              placeholder="Choose date"
             ></ion-datetime>
           </ion-item>
           <ion-item>
-            <ion-label>Broj putnika</ion-label>
-            <ion-select v-model="numberOfPassengers" placeholder="Odaberi">
+            <ion-label>Time</ion-label>
+            <ion-datetime
+              v-model="time"
+              display-format="HH mm"
+              placeholder="Choose time"
+            ></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label>Number of passangers</ion-label>
+            <ion-select v-model="numberOfPassengers" placeholder="Choose">
               <ion-select-option value="1">1</ion-select-option>
               <ion-select-option value="2">2</ion-select-option>
               <ion-select-option value="3">3</ion-select-option>
               <ion-select-option value="4">4</ion-select-option>
             </ion-select>
           </ion-item>
-
-          <ion-button type="submit">Trazi</ion-button>
+          <ion-grid>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12" class="ion-text-center">
+                <ion-button type="submit">Search</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </form>
       </div>
+      
+    <RidesList v-if="routesSearched" :data="searchedData" />
     </ion-content>
 
-    <RidesList v-if="routesSearched" :data="searchedData" />
   </ion-page>
 </template>
 
@@ -57,6 +71,9 @@ import {
   IonButton,
   IonSelect,
   IonSelectOption,
+  IonGrid,
+  IonRow,
+  IonCol
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
 import RidesList from "@/components/RidesList.vue";
@@ -77,6 +94,9 @@ export default {
     IonButton,
     IonSelect,
     IonSelectOption,
+    IonGrid,
+    IonRow,
+    IonCol,
     RidesList,
   },
   setup() {

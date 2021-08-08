@@ -1,9 +1,14 @@
 <template>
   <ion-card>
-    <div class="ride-container">
-      <!-- {{data.from}} -->
-      <span class="ride-container__address">{{ `${data.from.street} ..... ${data.to.street}` }}</span>
-    </div>
+      <ion-list class="ride-container" style="list-style-type: none">
+        <ion-item>{{`From: ${data.from.street} ${data.from.number}`}}</ion-item>
+        <ion-item>{{`To: ${data.to.street} ${data.to.number}`}}</ion-item>
+        <ion-item>{{`Car: ${data.driver.car.manufacturer} ${data.driver.car.model}`}}</ion-item>
+        <ion-item>{{`Color: ${data.driver.car.color}`}}</ion-item>
+        <ion-item>{{`Registration number: ${data.driver.car.id}`}}</ion-item>
+        <ion-item>{{`Price per person: ${data.pricePerPerson}`}}</ion-item>
+        <ion-item>{{`Driver: ${data.driver.username}`}}</ion-item>
+      </ion-list>
   </ion-card>
 </template>
 
