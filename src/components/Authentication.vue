@@ -83,6 +83,7 @@ import {
 // import {auth, db} from '../main'
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from 'vuex';
 
 // import VueJwtDecode from 'vue-jwt-decode'
 // import jwt-decode from "jwt-decode"
@@ -122,19 +123,17 @@ export default {
   setup() {
     const router = useRouter();
     const state = reactive(defaulStateObj);
-
+    const store = useStore()
     const signInWithEmailAndPassword = (email, password) => {
       try {
         if (!email || !password) {
           state.errorMsg = "Email and password required";
           return;
         }
-
         var payload = {
           email: email,
           password: password,
         };
-
         fetch("http://localhost:8080/carpool-be/api/user/authenticate", {
           method: "POST",
           headers: {
@@ -152,6 +151,12 @@ export default {
             state.errorMsg = "No user with such email and password.";
           });
         // await auth.signInWithEmailAndPassword(email, password) ???
+        fetch("http://localhost:8080/carpool-be/api/user/findByEmail/"+email)
+       .then((response) => response.json())
+          .then((data) => {
+            store.commit('setUser',data)
+            console.log(store.getters.getUser)
+          })
       } catch (error) {
         state.errorMsg = error.message;
       }
@@ -207,6 +212,7 @@ export default {
       signUpWithEmailAndPassword,
       logState,
       AuthMode,
+      store
     };
   },
 };

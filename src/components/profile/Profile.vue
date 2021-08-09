@@ -9,7 +9,7 @@
             alt=""
           />
         </ion-avatar>
-        <ion-text> Djordje </ion-text>
+        <ion-text>{{`${store.getters.getUser.username}`}}</ion-text>
       </div>
     </div>
 
@@ -53,24 +53,20 @@ export default {
     IonButton
   },
   setup() {
-
     const store = useStore()
-    console.log(store)
     // const router = useRouter()
     const isFinished = ref(false)
     const finishTabOpen = ref(false)
-
-
     // const fetchUserData = async () => {
       // const response = await fetch('http://localhost:8080/carpool-be/api/user?username=miapecelj')
       // const data = await response.json()
-
       // console.log(data)
       // router.push({path: '/tabs/finish'})
     // }
     return {
       isFinished,
       finishTabOpen,
+      store
       // fetchUserData,
     }
   },

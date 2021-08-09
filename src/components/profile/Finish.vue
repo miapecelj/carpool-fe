@@ -1,23 +1,23 @@
 <template>
   <form @submit.prevent="submitFinishProfile">
     <ion-item>
-      <ion-label position="floating"> Username </ion-label>
+      <ion-label position="floating">Full name</ion-label>
       <ion-input v-model="data.username"> </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating"> Car Plate Number </ion-label>
+      <ion-label position="floating">Car Plate Number</ion-label>
       <ion-input v-model="data.carPlateNumber"> </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating"> Home Address </ion-label>
+      <ion-label position="floating">Home Address</ion-label>
       <ion-input v-model="data.homeAddress"> </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating"> Work Address </ion-label>
+      <ion-label position="floating">Work Address</ion-label>
       <ion-input v-model="data.workAddress"> </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating"> Phone Number </ion-label>
+      <ion-label position="floating">Phone Number</ion-label>
       <ion-input v-model="data.phoneNumber"> </ion-input>
     </ion-item>
     <ion-grid>
@@ -41,6 +41,7 @@ import { IonInput,
     } from "@ionic/vue";
 import { reactive } from "@vue/reactivity";
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
   name: "Finish",
@@ -54,14 +55,18 @@ export default {
     IonCol,
   },
   setup() {
-
+    const store = useStore()
     const router = useRouter()
+    const user = store.getters.getUser
+    console.log(store)
+    console.log(user)
     const data = reactive({
-      username: "",
-      carPlateNumber: "",
-      homeAddress: "",
-      workAddress: "",
-      phoneNumber: "",
+      id: user.id,
+      username: user.username,
+      carPlateNumber: user.plate_number,
+      homeAddress: user.home_,
+      workAddress: user.id,
+      phoneNumber: user.id,
     });
 
     const submitFinishProfile = () => {
@@ -95,6 +100,7 @@ export default {
     return {
       data,
       submitFinishProfile,
+      store
     };
   },
 };
