@@ -1,33 +1,64 @@
 <template>
-  <form @submit.prevent="submitFinishProfile">
-    <ion-item>
-      <ion-label position="floating">Full name</ion-label>
-      <ion-input v-model="data.username"> </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Car Plate Number</ion-label>
-      <ion-input v-model="data.carPlateNumber"> </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Home Address</ion-label>
-      <ion-input v-model="data.homeAddress"> </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Work Address</ion-label>
-      <ion-input v-model="data.workAddress"> </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Phone Number</ion-label>
-      <ion-input v-model="data.phoneNumber"> </ion-input>
-    </ion-item>
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="12" class="ion-text-center">
-          <ion-button type="submit" size="medium" color="success">Finish profile</ion-button>
-        </ion-col>
-    </ion-row>
-  </ion-grid>
-  </form>
+  <ion-content>
+     <form @submit.prevent="submitFinishProfile">
+      <ion-item>
+        <ion-label position="floating">Full name</ion-label>
+        <ion-input v-model="data.fullName"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Home Address</ion-label>
+        <ion-input v-model="data.homeAddress"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Work Address</ion-label>
+        <ion-input v-model="data.workAddress"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input v-model="data.phone"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Manufacturer</ion-label>
+        <ion-select v-model="data.car.manufacturer" placeholder="Choose manufacturer">
+          <ion-select-option value="Skoda">Skoda</ion-select-option>
+          <ion-select-option value="Renault">Renault</ion-select-option>
+          <ion-select-option value="VW">VW</ion-select-option>
+          <ion-select-option value="Hyundai">Hyundai</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Model</ion-label>
+        <ion-input v-model="data.car.model"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Type</ion-label>
+        <ion-input v-model="data.car.type"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Color</ion-label>
+        <ion-input v-model="data.car.color"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Plate number</ion-label>
+        <ion-input v-model="data.car.id"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Year of manufacturing</ion-label>
+        <ion-datetime
+          v-model="data.car.yearOfManufacturing"
+          display-format="YYYY"
+          placeholder="Choose year"
+        ></ion-datetime>
+      </ion-item>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" class="ion-text-center">
+            <ion-button type="submit" size="medium" color="success">Finish profile</ion-button>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+    </form>
+  </ion-content>
 </template>
 
 <script>
@@ -56,30 +87,30 @@ export default {
   },
   setup() {
     const store = useStore()
-    const router = useRouter()
     const user = store.getters.getUser
-    console.log(store)
-    console.log(user)
+    console.log(JSON.stringify(user))
+    const router = useRouter()
     const data = reactive({
       id: user.id,
-      username: user.username,
-      carPlateNumber: user.plate_number,
-      homeAddress: user.home_,
-      workAddress: user.id,
-      phoneNumber: user.id,
+      fullName: user.fullName,
+      car: user.car == null ? {} : user.car,
+      homeAddress: user.homeAddress,
+      workAddress: user.workAddress,
+      phone: user.phone,
     });
+    console.log(data)
 
     const submitFinishProfile = () => {
       const payload = {
-        phone: data.phoneNumber,
-        username: data.username,
-        plate_number: data.carPlateNumber,
-        home_address: data.homeAddress,
-        work_address: data.workAddress,
+        phone: data.phone,
+        fullName: data.fullName,
+        car: data.car,
+        homeAddress: data.homeAddress,
+        workAddress: data.workAddress,
       };
       console.log(payload);
       fetch(
-        "http://localhost:8080/carpool-be/api/user/5",
+        "http://localhost:8080/carpool-be/api/user/"+user.id,
         {
           method: "PATCH",
           headers: {
@@ -94,8 +125,6 @@ export default {
 
           router.go(-1)
         })
-
-      
     };
     return {
       data,

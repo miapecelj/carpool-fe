@@ -1,8 +1,8 @@
 <template>
-  <div class="rides-list">
+  <ion-content>
     <h1 align="center">DISPLAY MY RIDES</h1>
     <Ride v-for="ride in rides" :ride-data="ride" :key="ride.id" />
-  </div>
+  </ion-content>
 </template>
 
 <script>

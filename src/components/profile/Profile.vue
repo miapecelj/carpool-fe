@@ -18,7 +18,7 @@
           <ion-grid>
             <ion-row class="ion-align-items-center">
               <ion-col size="12" class="ion-text-center">
-                <ion-button href="/tabs/finish" size="large" color="danger">Click to finish profile</ion-button>
+                <ion-button @click="finishProfile" size="large" color="danger">Click to finish profile</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -39,7 +39,7 @@ import {
   } from "@ionic/vue";
 import { ref } from '@vue/reactivity';
 import { useStore } from 'vuex'
-// import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 export default {
   name: "Profile",
@@ -54,7 +54,7 @@ export default {
   },
   setup() {
     const store = useStore()
-    // const router = useRouter()
+    const router = useRouter()
     const isFinished = ref(false)
     const finishTabOpen = ref(false)
     // const fetchUserData = async () => {
@@ -63,10 +63,14 @@ export default {
       // console.log(data)
       // router.push({path: '/tabs/finish'})
     // }
+    const finishProfile = () => { 
+      router.push({ path: "/tabs/finish" });
+    };
     return {
       isFinished,
       finishTabOpen,
-      store
+      store,
+      finishProfile
       // fetchUserData,
     }
   },
