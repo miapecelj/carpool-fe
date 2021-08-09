@@ -38,6 +38,7 @@ import {
     IonButton
   } from "@ionic/vue";
 import { ref } from '@vue/reactivity';
+import { useStore } from 'vuex'
 // import { useRouter } from 'vue-router';
 
 export default {
@@ -52,9 +53,13 @@ export default {
     IonButton
   },
   setup() {
+
+    const store = useStore()
+    console.log(store)
     // const router = useRouter()
     const isFinished = ref(false)
     const finishTabOpen = ref(false)
+
 
     // const fetchUserData = async () => {
       // const response = await fetch('http://localhost:8080/carpool-be/api/user?username=miapecelj')
