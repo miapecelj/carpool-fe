@@ -64,6 +64,7 @@
 <script>
 import { IonInput, 
     IonLabel,
+    IonContent,
     IonItem, 
     IonButton,
     IonGrid,
@@ -84,6 +85,7 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
+    IonContent,
   },
   setup() {
     const store = useStore()

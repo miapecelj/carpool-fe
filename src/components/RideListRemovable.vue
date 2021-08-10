@@ -1,20 +1,19 @@
 <template>
   <ion-content>
-    <h1 align="center">DISPLAY MY RIDES</h1>
-    <Ride v-for="ride in rides" :ride-data="ride" :key="ride.id" />
+    <RideRemovable v-for="ride in rides" :ride-data="ride" :key="ride.id" />
   </ion-content>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
 
-import Ride from "@/components/Ride.vue";
+import RideRemovable from "@/components/RideRemovable.vue";
 import {IonContent} from "@ionic/vue";
 
 export default {
-  name: "RidesList",
+  name: "RideListRemovable",
   components: {
-    Ride,
+    RideRemovable,
     IonContent
   },
   props: {
@@ -25,13 +24,6 @@ export default {
   setup(props) {
     const rides = ref(props.data);
     console.log(rides.value)
-    // const isFinished = ref(false);
-    // const finishTabOpen = ref(false);
-    // return {
-    //   isFinished,
-    //   finishTabOpen,
-    // };
-
     return {
       rides,
     };
@@ -40,8 +32,4 @@ export default {
 </script>
 
 <style>
-.rides-list {
-  z-index: 10;
-  overflow: scroll;
-}
 </style>

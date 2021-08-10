@@ -79,7 +79,7 @@ import {
 import { reactive, ref } from "@vue/reactivity";
 
 export default {
-  name: "Tab2",
+  name: "Tab3",
   components: {
     IonHeader,
     IonToolbar,

@@ -118,6 +118,7 @@ export default {
           console.log(data);
           routesSearched.value = true;
           searchedData.value = data;
+          console.log(searchedData.value)
         });
     };
     return {

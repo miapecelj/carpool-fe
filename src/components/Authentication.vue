@@ -155,7 +155,7 @@ export default {
        .then((response) => response.json())
           .then((data) => {
             store.commit('setUser',data)
-            console.log(store.getters.getUser)
+            console.log(JSON.stringify(store.getters.getUser))
           })
       } catch (error) {
         state.errorMsg = error.message;

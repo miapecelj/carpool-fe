@@ -1,6 +1,6 @@
 <template>
   <ion-card>
-      <ion-list class="ride-container">
+      <ion-list>
         <ion-item>{{`From: ${data.from.street} ${data.from.number}`}}</ion-item>
         <ion-item>{{`To: ${data.to.street} ${data.to.number}`}}</ion-item>
         <ion-item>{{`Time: ${data.dateTime}`}}</ion-item>
@@ -9,6 +9,13 @@
         <ion-item>{{`Registration number: ${data.driver.car.id}`}}</ion-item>
         <ion-item>{{`Price per person: ${data.pricePerPerson}`}}</ion-item>
         <ion-item>{{`Driver: ${data.driver.username}`}}</ion-item>
+        <ion-grid>
+            <ion-row class="ion-align-items-center">
+                <ion-col size="12" class="ion-text-center">
+                    <ion-button size="small" @click="removeRide(data.id)">Cancel</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
       </ion-list>
   </ion-card>
 </template>
@@ -18,6 +25,10 @@ import {
   IonCard,
   IonItem,
   IonList,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonButton,
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 
@@ -32,6 +43,10 @@ export default {
     IonCard,
     IonItem,
     IonList,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonButton,
   },
   setup(props) {
     const data = ref(props.rideData)
@@ -45,5 +60,8 @@ export default {
 <style>
 ion-item{
   --min-height: 20px;
+}
+ion-button{
+    --background: red;
 }
 </style>

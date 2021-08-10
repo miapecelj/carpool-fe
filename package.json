@@ -20,6 +20,7 @@
     "@ionic/vue-router": "^5.4.0",
     "cordova-plugin-calendar": "^5.1.5",
     "core-js": "^3.6.5",
+    "googlemaps-vue3": "git+https://github.com/Akifcan/googlemaps-vue-3.git",
     "vue": "^3.0.0-0",
     "vue-jwt-decode": "^0.1.0",
     "vue-router": "^4.0.0-0",
