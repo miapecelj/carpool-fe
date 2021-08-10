@@ -21,6 +21,11 @@
                 <ion-button @click="finishProfile" size="large" color="danger">Click to finish profile</ion-button>
               </ion-col>
             </ion-row>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12" class="ion-text-center">
+                <ion-button @click="logout" size="large" color="primary">Logout</ion-button>
+              </ion-col>
+            </ion-row>
           </ion-grid>
       </div>
     </div>
@@ -66,11 +71,17 @@ export default {
     const finishProfile = () => { 
       router.push({ path: "/tabs/finish" });
     };
+
+    const logout = () => {
+      window.localStorage.removeItem('jwt')
+      router.push({ path: "/" })
+    }
     return {
       isFinished,
       finishTabOpen,
       store,
-      finishProfile
+      finishProfile,
+      logout,
       // fetchUserData,
     }
   },
