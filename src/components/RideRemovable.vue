@@ -12,7 +12,7 @@
         <ion-grid>
             <ion-row class="ion-align-items-center">
                 <ion-col size="12" class="ion-text-center">
-                    <ion-button size="small" @click="removeRide(data.id)">Cancel</ion-button>
+                    <ion-button size="small" @click="removeRide(data)">Cancel</ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -31,6 +31,7 @@ import {
   IonButton,
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
+import { useStore } from 'vuex';
 
 export default {
   name: "Ride",
@@ -49,9 +50,31 @@ export default {
     IonButton,
   },
   setup(props) {
+    const store = useStore()
+    const user = store.getters.getUser
     const data = ref(props.rideData)
+    const removeRide = (data) => { 
+        if(data.driver.id == user.id) {
+            //remove ride
+            fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log(data);
+            });
+        }
+        else {
+            //remove taken ride
+        }
+    };
     return {
       data,
+      store,
+      removeRide,
     }
   }
 }
