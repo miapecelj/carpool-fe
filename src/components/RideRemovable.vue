@@ -69,6 +69,16 @@ export default {
         }
         else {
             //remove taken ride
+            fetch("http://localhost:8080/carpool-be/api/user/removeRide?userId="+user.id+"&rideId="+data.id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log(data);
+            });
         }
     };
     return {

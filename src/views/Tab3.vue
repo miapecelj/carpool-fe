@@ -115,7 +115,7 @@ export default {
           body: JSON.stringify(
             {  
                 "capacity": 3,
-                "dateTime": "2021-01-02T17:00:00",
+                "dateTime": "2021-12-31T17:00:00",
                 "from": {
                     "id": 1,
                     "street": "Krajiskih Brigada",
@@ -140,12 +140,12 @@ export default {
                 },
                 "pricePerPerson": 250.0,
                 "driver": {
-                    "id": 1,
-                    "username": "miapecelj",
-                    "email": "miapecelj@gmail.com",
-                    "password": "pass1",
-                    "fullName": "Mia Pecelj",
-                    "phone": "066031550",
+                    "id": 3,
+                    "username": "ema",
+                    "email": "ema@ema",
+                    "password": "$2a$10$Kh/Pss7GgQ6yyHqoYk.d5.UgwzHCj/YaCPwoOor0nRTWbg.oM97RW",
+                    "fullName": "saaf",
+                    "phone": "633463",
                     "car": {
                         "id": "BG12345",
                         "manufacturer": "Skoda",

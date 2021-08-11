@@ -69,7 +69,10 @@ import { IonInput,
     IonButton,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    IonSelect,
+    IonSelectOption,
+    IonDatetime,
     } from "@ionic/vue";
 import { reactive } from "@vue/reactivity";
 import { useRouter } from 'vue-router';
@@ -86,6 +89,9 @@ export default {
     IonRow,
     IonCol,
     IonContent,
+    IonSelect,
+    IonSelectOption,
+    IonDatetime,
   },
   setup() {
     const store = useStore()
