@@ -50,7 +50,7 @@
           </ion-grid>
         </form>
       </div>
-      
+    <div ref="mapDiv" style="width: 100%; height: 50%"/>
     <RidesList v-if="routesSearched" :data="searchedData" />
     </ion-content>
 
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
 import {
   IonPage,
   IonHeader,
@@ -78,6 +79,11 @@ import {
 import { reactive, ref } from "@vue/reactivity";
 import RidesList from "@/components/RidesList.vue";
 // import { useRouter } from "vue-router";
+import { useGeolocation } from '@/hooks/useGeolocation'
+import { computed, onMounted } from '@vue/runtime-core';
+import { Loader } from '@googlemaps/js-api-loader'
+
+const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
 
 export default {
   name: "Tab2",
@@ -109,6 +115,24 @@ export default {
       date: "",
       numberOfPassengers: "",
     });
+
+    const { coords } = useGeolocation()
+
+    const currentPossition = computed(() => ({
+      lat: coords.value.latitude,
+      lng: coords.value.longitude,
+    }))
+    
+    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
+    const mapDiv = ref(null)
+    onMounted(async () => {
+      await loader.load()
+      new google.maps.Map(mapDiv.value, {
+        center: currentPossition.value,
+        zoom: 17
+      })
+    })
+
     const onSubmit = () => {
       fetch(
         "http://localhost:8080/carpool-be/api/ride/search?dateTime=2021-12-12%2016:00&from.latitude=44.60230610479152&from.longtitude=20.585166156851308&to.latitude=44.78714257270379&to.longtitude=20.485718939795778"
@@ -126,6 +150,8 @@ export default {
       state,
       routesSearched,
       searchedData,
+      currentPossition,
+      mapDiv,
     };
   },
 };

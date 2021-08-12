@@ -11,9 +11,7 @@
           <ion-title size="large">Tab 1</ion-title>
         </ion-toolbar>
       </ion-header> -->
-
     <Profile />
-
     <!-- </ion-content> -->
   </ion-page>
 </template>
