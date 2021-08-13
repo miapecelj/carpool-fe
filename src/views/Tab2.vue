@@ -10,16 +10,16 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input v-model="addressFrom"></ion-input>
+            <ion-input @keydown="fetchCoords" v-model="state.addressFrom"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input v-model="addressTo"></ion-input>
+            <ion-input v-model="state.addressTo"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
             <ion-datetime
-              v-model="date"
+              v-model="state.date"
               display-format="DD MM YYYY"
               placeholder="Choose date"
             ></ion-datetime>
@@ -27,14 +27,14 @@
           <ion-item>
             <ion-label>Time</ion-label>
             <ion-datetime
-              v-model="time"
+              v-model="state.time"
               display-format="HH mm"
               placeholder="Choose time"
             ></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>Number of passangers</ion-label>
-            <ion-select v-model="numberOfPassengers" placeholder="Choose">
+            <ion-select v-model="state.numberOfPassengers" placeholder="Choose">
               <ion-select-option value="1">1</ion-select-option>
               <ion-select-option value="2">2</ion-select-option>
               <ion-select-option value="3">3</ion-select-option>
@@ -84,6 +84,7 @@ import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
+const GEOCODING_API_KEY = 'AIzaSyBJno4ubcm1KHByphcc054awRasxWBP3a8'
 
 export default {
   name: "Tab2",
@@ -115,21 +116,40 @@ export default {
       date: "",
       numberOfPassengers: "",
     });
+    const map = ref(null)
+    const marker = ref(null)
 
     const { coords } = useGeolocation()
 
+    const fetchCoords = () => {
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${ state.addressFrom },+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`)
+        .then(response => response.json())
+        .then((data) => {
+          console.log(data)
+          const streetCoordinates = data.results[0].geometry.location
+          coords.value = streetCoordinates
+          map.value.setCenter(coords.value)
+          marker.value.setPosition(coords.value)
+        })
+    }
+
     const currentPossition = computed(() => ({
-      lat: coords.value.latitude,
-      lng: coords.value.longitude,
+      lat: coords.value.lat,
+      lng: coords.value.lng,
     }))
     
     const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
     const mapDiv = ref(null)
     onMounted(async () => {
       await loader.load()
-      new google.maps.Map(mapDiv.value, {
+      map.value = new google.maps.Map(mapDiv.value, {
         center: currentPossition.value,
-        zoom: 17
+        zoom: 16
+      })
+      marker.value = new google.maps.Marker({
+        position: currentPossition.value,
+        map: map.value,
+        title: "Hello world",
       })
     })
 
@@ -152,6 +172,7 @@ export default {
       searchedData,
       currentPossition,
       mapDiv,
+      fetchCoords,
     };
   },
 };
