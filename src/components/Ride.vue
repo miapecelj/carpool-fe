@@ -17,6 +17,9 @@
             </ion-row>
         </ion-grid>
       </ion-list>
+      <ion-modal>
+        <Modal></Modal>
+      </ion-modal>
   </ion-card>
 </template>
 
@@ -32,6 +35,7 @@ import {
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "Ride",
@@ -53,6 +57,7 @@ export default {
     const data = ref(props.rideData)
     const store = useStore()
     const user = store.getters.getUser
+
     const reserveRide = (data) => { 
       fetch("http://localhost:8080/carpool-be/api/user/addRide?userId="+user.id+"&rideId="+data.id, {
           method: "POST",
@@ -69,6 +74,7 @@ export default {
       data,
       store,
       reserveRide,
+      Modal
     }
   }
 }

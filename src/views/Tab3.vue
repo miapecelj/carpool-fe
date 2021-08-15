@@ -10,31 +10,23 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input v-model="addressFrom"></ion-input>
+            <ion-input v-model="state.addressFrom" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input v-model="addressTo"></ion-input>
+            <ion-input v-model="state.addressTo" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
             <ion-datetime
-              v-model="date"
-              display-format="DD MM YYYY"
+              v-model="state.date"
+              display-format="DD MM YYYY HH mm"
               placeholder="Choose date"
             ></ion-datetime>
           </ion-item>
           <ion-item>
-            <ion-label>Time</ion-label>
-            <ion-datetime
-              v-model="time"
-              display-format="HH mm"
-              placeholder="Choose time"
-            ></ion-datetime>
-          </ion-item>
-          <ion-item>
             <ion-label>Capacity</ion-label>
-            <ion-select v-model="capacity" placeholder="Choose">
+            <ion-select v-model="state.capacity" placeholder="Choose">
               <ion-select-option value="1">1</ion-select-option>
               <ion-select-option value="2">2</ion-select-option>
               <ion-select-option value="3">3</ion-select-option>
@@ -43,7 +35,7 @@
           </ion-item>
           <ion-item>
             <ion-label>Price per person</ion-label>
-            <ion-input v-model="pricePerPerson"></ion-input>
+            <ion-input type="number" v-model="state.pricePerPerson" required></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row class="ion-align-items-center">
@@ -56,6 +48,14 @@
       </div>
     </ion-content>
   </ion-page>
+  <ion-button @click="setOpen(true)">Show Modal</ion-button>
+  <ion-modal
+    :is-open="isOpenRef"
+    css-class="my-custom-class"
+    @didDismiss="setOpen(false)"
+  >
+    <Modal :data="data"></Modal>
+  </ion-modal>
 </template>
 
 <script>
@@ -74,9 +74,11 @@ import {
   IonSelectOption,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonModal
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "Tab3",
@@ -95,16 +97,24 @@ export default {
     IonSelectOption,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    IonModal,
+    Modal
   },
   setup() {
+
+    const isOpenRef = ref(false);
+    const setOpen = (state) => isOpenRef.value = state;
+    const data = { content: 'New Content' };
+
     let routesSearched = ref(false);
     let searchedData = ref({});
     const state = reactive({
       addressFrom: "",
       addressTo: "",
       date: "",
-      numberOfPassengers: "",
+      capacity: "4",
+      pricePerPerson: "",
     });
     const onSubmit = () => {
       fetch("http://localhost:8080/carpool-be/api/rides", {
@@ -165,6 +175,8 @@ export default {
           console.log(data);
           routesSearched.value = true;
           searchedData.value = data;
+          data = { content:data };
+          setOpen(true)
         });
     };
     return {
@@ -172,6 +184,9 @@ export default {
       state,
       routesSearched,
       searchedData,
+      isOpenRef,
+      setOpen,
+      data
     };
   },
 };
