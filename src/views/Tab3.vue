@@ -54,7 +54,7 @@
     css-class="my-custom-class"
     @didDismiss="setOpen(false)"
   >
-    <Modal :data="data"></Modal>
+    <Modal :data="modalData" :setOpen="setOpen"></Modal>
   </ion-modal>
 </template>
 
@@ -105,7 +105,7 @@ export default {
 
     const isOpenRef = ref(false);
     const setOpen = (state) => isOpenRef.value = state;
-    const data = { content: 'New Content' };
+    let modalData = { content: 'Info message' };
 
     let routesSearched = ref(false);
     let searchedData = ref({});
@@ -167,17 +167,25 @@ export default {
                     },
                     "ratings": []
                 }
-            }
+           }
           ),
         })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          routesSearched.value = true;
-          searchedData.value = data;
-          data = { content:data };
-          setOpen(true)
+        .then(async response => {
+          const data = await response.json();
+          if (!response.ok) {
+              const error = (data && data.message) || response.statusText;
+              return Promise.reject(error);
+          }
+          console.log(data)
+           routesSearched.value = true;
+           searchedData.value = data;
+           modalData.content = "Ride successfully created."
+        })
+        .catch(error => {
+          modalData.content = "Error creating ride."
+          console.error("There was an error!", error);
         });
+        setOpen(true)
     };
     return {
       onSubmit,
@@ -186,7 +194,7 @@ export default {
       searchedData,
       isOpenRef,
       setOpen,
-      data
+      modalData
     };
   },
 };

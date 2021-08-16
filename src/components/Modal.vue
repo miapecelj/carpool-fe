@@ -1,28 +1,42 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-title>{{ title }}</ion-title>
+      <ion-title>Info</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     {{ content }}
   </ion-content>
+  <ion-button @click="setOpen(false)">Close</ion-button>
+
 </template>
 
 <script>
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton} from '@ionic/vue';
+import { ref } from "@vue/reactivity";
 
-export default defineComponent({
-  name: 'Modal',
-  props: {
-    title: { type: String, default: 'Info' },
+export default {
+  name: "Modal",
+  components: {
+    IonToolbar,
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonButton
   },
-  data() {
-    return {
-      content: 'Content',
+  props: {
+    data: {
+      type: Object,
+    },
+    setOpen: {
+      type: Function
     }
   },
-  components: { IonContent, IonHeader, IonTitle, IonToolbar }
-});
+  setup(props) {
+    const content = ref(props.data.content);
+    return {
+      content
+    };
+  },
+};
 </script>
