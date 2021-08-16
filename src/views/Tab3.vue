@@ -10,11 +10,11 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input v-model="state.addressFrom" required></ion-input>
+            <ion-input @keyup="fetchFromCoords" v-model="state.addressFrom" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input v-model="state.addressTo" required></ion-input>
+            <ion-input @keyup="fetchToCoords" v-model="state.addressTo" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
@@ -46,14 +46,10 @@
           </ion-grid>
         </form>
       </div>
+      <div ref="mapDiv" style="width: 100%; height: 50%"/>
     </ion-content>
   </ion-page>
-  <ion-button @click="setOpen(true)">Show Modal</ion-button>
-  <ion-modal
-    :is-open="isOpenRef"
-    css-class="my-custom-class"
-    @didDismiss="setOpen(false)"
-  >
+  <ion-modal :is-open="isOpenRef">
     <Modal :data="modalData" :setOpen="setOpen"></Modal>
   </ion-modal>
 </template>
@@ -79,6 +75,13 @@ import {
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
 import Modal from "@/components/Modal.vue";
+import { useGeolocation } from '@/hooks/useGeolocation'
+import { computed, onMounted } from '@vue/runtime-core';
+import { Loader } from '@googlemaps/js-api-loader';
+import { useStore } from 'vuex';
+
+const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
+const GEOCODING_API_KEY = 'AIzaSyBJno4ubcm1KHByphcc054awRasxWBP3a8'
 
 export default {
   name: "Tab3",
@@ -99,9 +102,12 @@ export default {
     IonRow,
     IonCol,
     IonModal,
-    Modal
+    Modal,
   },
   setup() {
+
+    const store = useStore()
+    const user = store.getters.getUser
 
     const isOpenRef = ref(false);
     const setOpen = (state) => isOpenRef.value = state;
@@ -109,6 +115,7 @@ export default {
 
     let routesSearched = ref(false);
     let searchedData = ref({});
+
     const state = reactive({
       addressFrom: "",
       addressTo: "",
@@ -116,58 +123,103 @@ export default {
       capacity: "4",
       pricePerPerson: "",
     });
+
+    const map = ref(null)
+    const marker = ref(null)
+
+    const { coords } = useGeolocation()
+    const coordsFrom = ref({})
+    const coordsTo = ref({})
+
+    const fetchFromCoords = () => {
+      let address = state.addressFrom.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      console.log(url)
+      fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+          console.log(data)
+          const streetCoordinates = data.results[0].geometry.location
+          coordsFrom.value = streetCoordinates
+          map.value.setCenter(coords.value)
+          marker.value.setPosition(coords.value)
+        })
+    }
+    
+    const fetchToCoords = () => {
+      let address = state.addressTo.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      console.log(url)
+      fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+          console.log(data)
+          const streetCoordinates = data.results[0].geometry.location
+          coordsTo.value = streetCoordinates
+          map.value.setCenter(coords.value)
+          marker.value.setPosition(coords.value)
+        })
+    }
+    
+    const currentPossition = computed(() => ({
+      lat: coords.value.lat,
+      lng: coords.value.lng,
+    }))
+    
+    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
+    const mapDiv = ref(null)
+    onMounted(async () => {
+      await loader.load()
+      // map.value = new google.maps.Map(mapDiv.value, {
+      //   center: currentPossition.value,
+      //   zoom: 16
+      // })
+      // marker.value = new google.maps.Marker({
+      //   position: currentPossition.value,
+      //   map: map.value,
+      //   title: "Hello world",
+      // })
+    })
+
     const onSubmit = () => {
+      console.log(state.date)
+      state.date = state.date.toString()
+      var dateTime = state.date.split(":")[0]+":"+state.date.split(":")[1]
+ 
+      var payload = {
+        from: {
+          // latitude: coordsFrom.value.lat,
+          // longtitude: coordsFrom.value.lng
+          "id": 1,
+          "street": "Krajiskih Brigada",
+          "number": "25",
+          "latitude": 44.76313440968184,
+          "longtitude": 20.415696511418624
+
+        },
+        to: {
+          // latitude: coordsTo.value.lat,
+          // longtitude: coordsTo.value.lng
+          "id": 2,
+          "street": "Todora Dukina",
+          "number": "79",
+          "latitude": 44.78714257270379,
+          "longtitude": 20.485718939795778
+        },
+        capacity: state.capacity,
+        dateTime: dateTime,
+        pricePerPerson: state.pricePerPerson,
+        driver: user
+      }
+
+      console.log(JSON.stringify(payload))
       fetch("http://localhost:8080/carpool-be/api/rides", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(
-            {  
-                "capacity": 3,
-                "dateTime": "2021-12-31T17:00:00",
-                "from": {
-                    "id": 1,
-                    "street": "Krajiskih Brigada",
-                    "number": "25",
-                    "city": {
-                        "postalCode": 11300,
-                        "name": "Smederevo"
-                    },
-                    "latitude": 44.60230610479152,
-                    "longtitude": 20.585166156851308
-                },
-                "to": {
-                    "id": 2,
-                    "street": "Todora Dukina",
-                    "number": "79",
-                    "city": {
-                        "postalCode": 11000,
-                        "name": "Beograd"
-                    },
-                    "latitude": 44.78714257270379,
-                    "longtitude": 20.485718939795778
-                },
-                "pricePerPerson": 250.0,
-                "driver": {
-                    "id": 3,
-                    "username": "ema",
-                    "email": "ema@ema",
-                    "password": "$2a$10$Kh/Pss7GgQ6yyHqoYk.d5.UgwzHCj/YaCPwoOor0nRTWbg.oM97RW",
-                    "fullName": "saaf",
-                    "phone": "633463",
-                    "car": {
-                        "id": "BG12345",
-                        "manufacturer": "Skoda",
-                        "model": "Octavia",
-                        "type": "Caravan",
-                        "yearOfManufacturing": "2005-12-12",
-                        "color": "white",
-                        "owner": null
-                    },
-                    "ratings": []
-                }
-           }
+           payload
           ),
         })
         .then(async response => {
@@ -194,7 +246,12 @@ export default {
       searchedData,
       isOpenRef,
       setOpen,
-      modalData
+      modalData,
+      currentPossition,
+      mapDiv,
+      fetchToCoords,
+      fetchFromCoords,
+      store
     };
   },
 };

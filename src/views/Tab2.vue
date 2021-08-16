@@ -138,8 +138,8 @@ export default {
     // }
 
     const fetchFromCoords = () => {
-      let addres = state.addressFrom.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${addres},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      let address = state.addressFrom.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -153,8 +153,8 @@ export default {
     }
     
     const fetchToCoords = () => {
-      let addres = state.addressTo.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${addres},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      let address = state.addressTo.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
       console.log(url)
       fetch(url)
         .then(response => response.json())
