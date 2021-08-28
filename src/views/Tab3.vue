@@ -49,9 +49,9 @@
       <div ref="mapDiv" style="width: 100%; height: 50%"/>
     </ion-content>
   </ion-page>
-  <ion-modal :is-open="isOpenRef">
+  <!-- <ion-modal :is-open="isOpenRef">
     <Modal :data="modalData" :setOpen="setOpen"></Modal>
-  </ion-modal>
+  </ion-modal> -->
 </template>
 
 <script>
@@ -71,10 +71,10 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonModal
+  // IonModal
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
-import Modal from "@/components/Modal.vue";
+// import Modal from "@/components/Modal.vue";
 import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
@@ -101,8 +101,8 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    IonModal,
-    Modal,
+    // IonModal,
+    // Modal,
   },
   setup() {
 

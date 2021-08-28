@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import Tabs from '../views/Tabs.vue'
 import Authentication from '../components/Authentication.vue'
+import Tab1 from '@/views/Tab1.vue';
+import Tab2 from '@/views/Tab2.vue';
+import Tab3 from '@/views/Tab3.vue';
+import Tab4 from '@/views/Tab4.vue';
 
 const routes = [
   {
@@ -17,20 +21,22 @@ const routes = [
       },
       {
         path: 'tab1',
-        component: () => import('@/views/Tab1.vue'),
-        
+        component: Tab1
       },
       {
         path: 'tab2',
-        component: () => import('@/views/Tab2.vue')
+        // component: () => import('@/views/Tab2.vue')
+        component: Tab2
       },
       {
         path: 'tab3',
-        component: () => import('@/views/Tab3.vue')
+        component: Tab3
+        // component: () => import('@/views/Tab3.vue')
       },
       {
         path: 'tab4',
-        component: () => import('@/views/Tab4.vue')
+        component: Tab4
+        // component: () => import('@/views/Tab4.vue')
       },
       {
         path: 'finish',

@@ -3,19 +3,19 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/tabs/tab1">
+        <ion-tab-button tab="tab1" @click="$router.push('tab1')">
           <ion-icon :icon="person" />
           <ion-label>Profile</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
+        <ion-tab-button tab="tab2" @click="$router.push('tab2')">
           <ion-icon :icon="search" />
           <ion-label>Search</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
+        <ion-tab-button tab="tab3" @click="$router.push('tab3')">
           <ion-icon :icon="add" />
           <ion-label>Create</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="tab4" href="/tabs/tab4">
+        <ion-tab-button tab="tab4" @click="$router.push('tab4')">
           <ion-icon :icon="car" />
           <ion-label>My rides</ion-label>
         </ion-tab-button>
@@ -32,6 +32,8 @@ export default {
   name: 'Tabs',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage, IonRouterOutlet },
   setup() {
+    
+    
     return {
       search, 
       car, 
