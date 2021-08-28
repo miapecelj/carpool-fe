@@ -48,10 +48,10 @@
       </div>
       <div ref="mapDiv" style="width: 100%; height: 50%"/>
     </ion-content>
-  </ion-page>
-  <ion-modal :is-open="isOpenRef">
+    <ion-modal :is-open="isOpenRef">
     <Modal :data="modalData" :setOpen="setOpen"></Modal>
-  </ion-modal>
+    </ion-modal>
+  </ion-page>
 </template>
 
 <script>
@@ -233,12 +233,13 @@ export default {
            routesSearched.value = true;
            searchedData.value = data;
            modalData.content = "Ride successfully created."
+          setOpen(true)
         })
         .catch(error => {
           modalData.content = "Error creating ride."
           console.error("There was an error!", error);
+          setOpen(true)
         });
-        setOpen(true)
     };
     return {
       onSubmit,

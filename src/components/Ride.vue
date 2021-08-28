@@ -82,12 +82,13 @@ export default {
         }
         console.log(data)
           modalData.content = "Ride successfully reserved. You will get a notification when driver approves your request."
+          setOpen(true)
       })
       .catch(error => {
         modalData.content = "Error reserving ride."
         console.error("There was an error!", error);
+        setOpen(true)
       });
-      setOpen(true)
     };
     return {
       data,
