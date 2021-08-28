@@ -138,12 +138,7 @@ export default {
     // }
 
     const fetchFromCoords = () => {
-<<<<<<< HEAD
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-=======
-      let address = state.addressFrom.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
->>>>>>> d673a984fc3f4e1cec05a44491c76e7ca1bf5369
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -157,13 +152,8 @@ export default {
     }
     
     const fetchToCoords = () => {
-<<<<<<< HEAD
       // let addres = state.addressTo.replace(/\s/g, '+')
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-=======
-      let address = state.addressTo.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
->>>>>>> d673a984fc3f4e1cec05a44491c76e7ca1bf5369
       console.log(url)
       fetch(url)
         .then(response => response.json())
