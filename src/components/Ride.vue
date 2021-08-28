@@ -17,6 +17,11 @@
             </ion-row>
         </ion-grid>
       </ion-list>
+      <ion-modal
+        :is-open="isOpenRef"
+      >
+        <Modal :data="modalData" :setOpen="setOpen"></Modal>
+      </ion-modal>
   </ion-card>
 </template>
 
@@ -29,9 +34,11 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  IonModal,
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "Ride",
@@ -48,11 +55,18 @@ export default {
     IonRow,
     IonCol,
     IonButton,
+    IonModal,
+    Modal,
   },
   setup(props) {
+    const isOpenRef = ref(false);
+    const setOpen = (state) => isOpenRef.value = state;
+    let modalData = { content: 'Info message' };
+
     const data = ref(props.rideData)
     const store = useStore()
     const user = store.getters.getUser
+
     const reserveRide = (data) => { 
       fetch("http://localhost:8080/carpool-be/api/user/addRide?userId="+user.id+"&rideId="+data.id, {
           method: "POST",
@@ -60,15 +74,29 @@ export default {
               "Content-Type": "application/json",
           },
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+        console.log(data)
+          modalData.content = "Ride successfully reserved. You will get a notification when driver approves your request."
+      })
+      .catch(error => {
+        modalData.content = "Error reserving ride."
+        console.error("There was an error!", error);
       });
+      setOpen(true)
     };
     return {
       data,
       store,
       reserveRide,
+      Modal,
+      isOpenRef,
+      setOpen,
+      modalData
     }
   }
 }

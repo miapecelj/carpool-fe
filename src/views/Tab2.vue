@@ -10,31 +10,24 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input @keyup="fetchFromCoords" v-model="state.addressFrom"></ion-input>
+            <ion-input @keyup="fetchFromCoords" v-model="state.addressFrom" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input @keyup="fetchToCoords" v-model="state.addressTo"></ion-input>
+            <ion-input @keyup="fetchToCoords" v-model="state.addressTo" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
             <ion-datetime
               v-model="state.date"
-              display-format="DD MM YYYY"
+              display-format="DD MM YYYY HH mm"
               placeholder="Choose date"
-            ></ion-datetime>
-          </ion-item>
-          <ion-item>
-            <ion-label>Time</ion-label>
-            <ion-datetime
-              v-model="state.time"
-              display-format="HH mm"
-              placeholder="Choose time"
+              required
             ></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>Number of passangers</ion-label>
-            <ion-select v-model="state.numberOfPassengers" placeholder="Choose">
+            <ion-select v-model="state.numberOfPassengers" placeholder="Choose" required>
               <ion-select-option value="1">1</ion-select-option>
               <ion-select-option value="2">2</ion-select-option>
               <ion-select-option value="3">3</ion-select-option>
@@ -81,7 +74,8 @@ import RidesList from "@/components/RidesList.vue";
 // import { useRouter } from "vue-router";
 import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
-import { Loader } from '@googlemaps/js-api-loader'
+import { Loader } from '@googlemaps/js-api-loader';
+//import {VueMoment} from 'vue-moment'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
 const GEOCODING_API_KEY = 'AIzaSyBJno4ubcm1KHByphcc054awRasxWBP3a8'
@@ -107,6 +101,9 @@ export default {
     RidesList,
   },
   setup() {
+//     Vue.use(VueMoment, {
+//     moment,
+// })
     // const router = useRouter();
     let routesSearched = ref(false);
     let searchedData = ref({});
@@ -114,7 +111,7 @@ export default {
       addressFrom: "",
       addressTo: "",
       date: "",
-      numberOfPassengers: "",
+      numberOfPassengers: "1",
     });
     const map = ref(null)
     const marker = ref(null)
@@ -141,7 +138,12 @@ export default {
     // }
 
     const fetchFromCoords = () => {
+<<<<<<< HEAD
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+=======
+      let address = state.addressFrom.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+>>>>>>> d673a984fc3f4e1cec05a44491c76e7ca1bf5369
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -155,8 +157,13 @@ export default {
     }
     
     const fetchToCoords = () => {
+<<<<<<< HEAD
       // let addres = state.addressTo.replace(/\s/g, '+')
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+=======
+      let address = state.addressTo.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+>>>>>>> d673a984fc3f4e1cec05a44491c76e7ca1bf5369
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -190,8 +197,15 @@ export default {
     })
 
     const onSubmit = () => {
+      console.log(state.date)
+      state.date = state.date.toString()
+      var dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
+      //var dateStringWithTime = moment(new Date(state.date)).format('YYYY-MM-DD HH:MM');
+      console.log(dateTime)
       fetch(
-        "http://localhost:8080/carpool-be/api/ride/search?dateTime=2021-12-12%2016:00&from.latitude=44.60230610479152&from.longtitude=20.585166156851308&to.latitude=44.78714257270379&to.longtitude=20.485718939795778"
+        "http://localhost:8080/carpool-be/api/ride/search?dateTime="+dateTime+
+        "&from.latitude="+coordsFrom.value.lat+"&from.longtitude="+coordsFrom.value.lng+
+        "&to.latitude="+coordsTo.value.lat+"&to.longtitude="+coordsTo.value.lng
       )
         .then((response) => response.json())
         .then((data) => {
