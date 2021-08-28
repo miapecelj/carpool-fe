@@ -124,7 +124,13 @@ export default {
     const router = useRouter();
     const state = reactive(defaulStateObj);
     const store = useStore()
+
+    const cleanErrorMessages = () => {
+      state.errorMsg="";
+      state.successMsg="";
+    }
     const signInWithEmailAndPassword = (email, password) => {
+      cleanErrorMessages();
       try {
         if (!email || !password) {
           state.errorMsg = "Email and password required";
@@ -163,6 +169,7 @@ export default {
     };
 
     const signUpWithEmailAndPassword = (username, email, password) => {
+      cleanErrorMessages();
       try {
         if (!username || !email || !password) {
           state.errorMsg = "Username, email and password required";
@@ -186,11 +193,16 @@ export default {
         })
           .then((response) => {
             console.log(response);
+            console.log(response.status)
             state.email = ''
             state.password = ''
             state.username = ''
             state.mode = AuthMode.SignIn
-            state.successMsg = "Succesfull register. Please activate your email."
+            if(response.status==400) {
+              state.errorMsg = "Registration failed"
+            } else{
+              state.successMsg = "Succesfull register. Please activate your email."
+            }
           })
           .catch((error) => console.log(error));
         // const authRes = await auth.createUserWithEmailAndPassword(email, password)
