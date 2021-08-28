@@ -49,9 +49,9 @@
       <div ref="mapDiv" style="width: 100%; height: 50%"/>
     </ion-content>
   </ion-page>
-  <!-- <ion-modal :is-open="isOpenRef">
+  <ion-modal :is-open="isOpenRef">
     <Modal :data="modalData" :setOpen="setOpen"></Modal>
-  </ion-modal> -->
+  </ion-modal>
 </template>
 
 <script>
@@ -71,10 +71,10 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  // IonModal
+  IonModal
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
-// import Modal from "@/components/Modal.vue";
+import Modal from "@/components/Modal.vue";
 import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
@@ -101,8 +101,8 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    // IonModal,
-    // Modal,
+    IonModal,
+    Modal,
   },
   setup() {
 
@@ -131,6 +131,7 @@ export default {
     const coordsFrom = ref({})
     const coordsTo = ref({})
 
+
     const fetchFromCoords = () => {
       let address = state.addressFrom.replace(/\s/g, '+')
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
@@ -139,8 +140,10 @@ export default {
         .then(response => response.json())
         .then((data) => {
           console.log(data)
+          const street = data.results[0].address_components[1].short_name
+          const number = data.results[0].address_components[0].short_name
           const streetCoordinates = data.results[0].geometry.location
-          coordsFrom.value = streetCoordinates
+          coordsFrom.value = {coords: streetCoordinates, street: street, number: number}
           map.value.setCenter(coords.value)
           marker.value.setPosition(coords.value)
         })
@@ -154,8 +157,10 @@ export default {
         .then(response => response.json())
         .then((data) => {
           console.log(data)
+          const street = data.results[0].address_components[1].short_name
+          const number = data.results[0].address_components[0].short_name
           const streetCoordinates = data.results[0].geometry.location
-          coordsTo.value = streetCoordinates
+          coordsTo.value = {coords: streetCoordinates, street: street, number: number}
           map.value.setCenter(coords.value)
           marker.value.setPosition(coords.value)
         })
@@ -185,26 +190,22 @@ export default {
       console.log(state.date)
       state.date = state.date.toString()
       var dateTime = state.date.split(":")[0]+":"+state.date.split(":")[1]
+      console.log(coordsFrom.value)
+      console.log(coordsTo.value)
  
       var payload = {
         from: {
-          // latitude: coordsFrom.value.lat,
-          // longtitude: coordsFrom.value.lng
-          "id": 1,
-          "street": "Krajiskih Brigada",
-          "number": "25",
-          "latitude": 44.76313440968184,
-          "longtitude": 20.415696511418624
+          latitude: coordsFrom.value.coords.lat,
+          longtitude: coordsFrom.value.coords.lng,
+          street: coordsFrom.value.street,
+          number: coordsFrom.value.number
 
         },
         to: {
-          // latitude: coordsTo.value.lat,
-          // longtitude: coordsTo.value.lng
-          "id": 2,
-          "street": "Todora Dukina",
-          "number": "79",
-          "latitude": 44.78714257270379,
-          "longtitude": 20.485718939795778
+         latitude: coordsTo.value.coords.lat,
+          longtitude: coordsTo.value.coords.lng,
+          street: coordsTo.value.street,
+          number: coordsTo.value.number
         },
         capacity: state.capacity,
         dateTime: dateTime,

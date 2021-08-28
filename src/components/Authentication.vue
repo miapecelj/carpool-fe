@@ -174,6 +174,8 @@ export default {
           email: email,
           password: password,
         };
+        console.log(JSON.stringify(payload))
+
 
         fetch("http://localhost:8080/carpool-be/api/user/registration", {
           method: "POST",
