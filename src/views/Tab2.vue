@@ -141,8 +141,7 @@ export default {
     // }
 
     const fetchFromCoords = () => {
-      let addres = state.addressFrom.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${addres},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -150,14 +149,14 @@ export default {
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsFrom.value = streetCoordinates
-          map.value.setCenter(coords.value)
-          marker.value.setPosition(coords.value)
+          map.value.setCenter(coordsFrom.value)
+          marker.value.setPosition(coordsFrom.value)
         })
     }
     
     const fetchToCoords = () => {
-      let addres = state.addressTo.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${addres},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      // let addres = state.addressTo.replace(/\s/g, '+')
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
       console.log(url)
       fetch(url)
         .then(response => response.json())
@@ -165,8 +164,8 @@ export default {
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsTo.value = streetCoordinates
-          map.value.setCenter(coords.value)
-          marker.value.setPosition(coords.value)
+          map.value.setCenter(coordsTo.value)
+          marker.value.setPosition(coordsTo.value)
         })
     }
     
