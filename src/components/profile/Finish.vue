@@ -102,8 +102,11 @@ export default {
       const payload = {
         phone: data.phone,
         fullName: data.fullName,
+        
         car: data.car,
       };
+      payload.car.yearOfManufacturing = payload.car.yearOfManufacturing.toString()
+      payload.car.yearOfManufacturing= payload.car.yearOfManufacturing.split('T')[0]
       console.log(payload);
       fetch(
         "http://localhost:8080/carpool-be/api/user/"+user.id,
@@ -118,7 +121,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data)
-
           router.go(-1)
         })
     };
