@@ -18,6 +18,8 @@ import {
 import RideListRemovable from "@/components/RideListRemovable.vue";
 import { ref } from "@vue/reactivity";
 import { useStore } from 'vuex'
+import { getTakenRides, getCreatedRides } from '@/common/rides-api.js'
+import { onUpdated } from '@vue/runtime-core';
 
 export default {
   name: "Tab4",
@@ -34,28 +36,38 @@ export default {
     let takenRides = ref({});
     let displayCreated = ref(false);
     let displayTaken = ref(false);
-    const getCreatedRides = () => {
-      fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingByUserId/"+user.id)
-        .then((response) => response.json())
-        .then((data) => {
-          createdRides.value = data;
-          displayCreated.value = true;
-          console.log(createdRides.value);
+    // const getCreatedRides = () => {
+    //   fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingByUserId/"+user.id)
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       createdRides.value = data;
+    //       displayCreated.value = true;
+    //       console.log(createdRides.value);
+    //     });
+    // };
+    // const getTakenRides = () => {
+    //   fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingTakenRidesByUserId/"+user.id)
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       takenRides.value = data;
+    //       displayTaken.value = true;
+    //       console.log(takenRides.value);
+    //     });
+    // };
+    
 
-        });
-    };
-    const getTakenRides = () => {
-      fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingTakenRidesByUserId/"+user.id)
-        .then((response) => response.json())
-        .then((data) => {
+    onUpdated(() => {
+      getCreatedRides(user)
+        .then(data => {
+          createdRides.value = data;
+          displayCreated.value = true;  
+        })
+      getTakenRides(user)
+        .then(data => {
           takenRides.value = data;
           displayTaken.value = true;
-          console.log(takenRides.value);
-
-        });
-    };
-    getCreatedRides();
-    getTakenRides();
+        })
+    })
     return {
       getCreatedRides,
       createdRides,
