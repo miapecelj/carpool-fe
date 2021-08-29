@@ -10,11 +10,11 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input @keyup="fetchFromCoords" v-model="state.addressFrom" required></ion-input>
+            <ion-input @keyup="streetFromHandler" v-model="state.addressFrom" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input @keyup="fetchToCoords" v-model="state.addressTo" required></ion-input>
+            <ion-input @keyup="streetToHandler" v-model="state.addressTo" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
@@ -71,14 +71,12 @@ import {
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
 import RidesList from "@/components/RidesList.vue";
-// import { useRouter } from "vue-router";
 import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
-//import {VueMoment} from 'vue-moment'
+import { fetchCoords } from '@/common/google-api.js'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
-const GEOCODING_API_KEY = 'AIzaSyBJno4ubcm1KHByphcc054awRasxWBP3a8'
 
 export default {
   name: "Tab2",
@@ -119,30 +117,10 @@ export default {
     const { coords } = useGeolocation()
     const coordsFrom = ref({})
     const coordsTo = ref({})
-
-    // const fetchCoords = (event) => {
-    //   console.log(from.value, to.value, event.target)
-    //   let addres = state.addressFrom.replace(/\s/g, '+')
-    //   console.log(addres, state.addressFrom)
-    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-    //   console.log(url)
-    //   fetch(url)
-    //     .then(response => response.json())
-    //     .then((data) => {
-    //       console.log(data)
-    //       const streetCoordinates = data.results[0].geometry.location
-    //       coords.value = streetCoordinates
-    //       map.value.setCenter(coords.value)
-    //       marker.value.setPosition(coords.value)
-    //     })
-    // }
-
-    const fetchFromCoords = () => {
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-      console.log(url)
-      fetch(url)
-        .then(response => response.json())
-        .then((data) => {
+    
+    const streetFromHandler = () => {
+      fetchCoords(state.addressFrom)
+        .then(data => {
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsFrom.value = streetCoordinates
@@ -150,20 +128,17 @@ export default {
           marker.value.setPosition(coordsFrom.value)
         })
     }
+
     
-    const fetchToCoords = () => {
-      // let addres = state.addressTo.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-      console.log(url)
-      fetch(url)
-        .then(response => response.json())
-        .then((data) => {
+    const streetToHandler = () => {
+      fetchCoords(state.addressTo)
+        .then(data => {
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsTo.value = streetCoordinates
           map.value.setCenter(coordsTo.value)
           marker.value.setPosition(coordsTo.value)
-        })
+       })
     }
     
     const currentPossition = computed(() => ({
@@ -212,8 +187,8 @@ export default {
       searchedData,
       currentPossition,
       mapDiv,
-      fetchToCoords,
-      fetchFromCoords,
+      streetFromHandler,
+      streetToHandler
     };
   },
 };
