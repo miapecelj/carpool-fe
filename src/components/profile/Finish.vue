@@ -121,7 +121,9 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data)
-          router.go(-1)
+        })
+        .finally(() => {
+          router.push({path:"/tabs/tab1"})
         })
     };
     return {
