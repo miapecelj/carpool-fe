@@ -186,7 +186,13 @@ export default {
       // })
     })
 
-    const onSubmit = () => {
+     const onSubmit = () => {
+      if (user.car == null) {
+      modalData.content = "You are not allowed to create a ride. Please add data about your car in the profile section."
+      setOpen(true)
+      return;
+    
+    }
       console.log(state.date)
       state.date = state.date.toString()
       var dateTime = state.date.split(":")[0]+":"+state.date.split(":")[1]
