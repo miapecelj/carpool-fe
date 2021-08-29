@@ -109,10 +109,14 @@ export default {
         
         car: data.car,
       };
-      if(payload.car.yearOfManufacturing!=null){
-      payload.car.yearOfManufacturing = payload.car.yearOfManufacturing.toString()
-      payload.car.yearOfManufacturing= payload.car.yearOfManufacturing.split('T')[0]
+      if (payload.car.yearOfManufacturing != null) {
+         payload.car.yearOfManufacturing = payload.car.yearOfManufacturing.toString()
+        payload.car.yearOfManufacturing= payload.car.yearOfManufacturing.split('T')[0]
       }
+      if(payload.car.id == null || payload.car.id=="") {
+        payload.car = null;
+      }
+     
       console.log(payload);
       fetch(
         "http://localhost:8080/carpool-be/api/user/"+user.id,
