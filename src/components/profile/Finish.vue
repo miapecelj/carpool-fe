@@ -1,4 +1,5 @@
 <template>
+<ion-page>
   <ion-content>
      <form @submit.prevent="submitFinishProfile">
       <ion-item>
@@ -51,6 +52,7 @@
     </ion-grid>
     </form>
   </ion-content>
+  </ion-page>
 </template>
 
 <script>
@@ -65,6 +67,7 @@ import { IonInput,
     IonSelect,
     IonSelectOption,
     IonDatetime,
+    IonPage
     } from "@ionic/vue";
 import { reactive } from "@vue/reactivity";
 import { useRouter } from 'vue-router';
@@ -84,6 +87,7 @@ export default {
     IonSelect,
     IonSelectOption,
     IonDatetime,
+    IonPage
   },
   setup() {
     const store = useStore()
