@@ -68,15 +68,14 @@ export default {
         })
 
     onBeforeUpdate(() => {
+      displayCreated.value = false;
       getCreatedRides(user)
         .then(data => {
-          displayCreated.value = false;
           createdRides.value = data;
           displayCreated.value = true;
         })
       getTakenRides(user)
         .then(data => {
-          displayCreated.value = false;
           takenRides.value = data;
           displayTaken.value = true;
         })
