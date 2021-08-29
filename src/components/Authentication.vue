@@ -82,7 +82,7 @@ import {
 } from "@ionic/vue";
 // import {auth, db} from '../main'
 import { reactive, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from 'vuex';
 
 // import VueJwtDecode from 'vue-jwt-decode'
@@ -121,9 +121,31 @@ export default {
   },
 
   setup() {
+
+    const route = useRoute()
     const router = useRouter();
     const state = reactive(defaulStateObj);
     const store = useStore()
+
+
+    // read readableStream with response.text()
+    if (route.query.token) {
+      fetch('http://localhost:8080/carpool-be/api/user/confirm-account', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: route.query.token
+      })
+        .then(response => response.text())
+        .then(data => {
+          state.successMsg = data
+        })
+        .catch(error => {
+          state.errorMsg = error.message
+        })
+    }
+
     const signInWithEmailAndPassword = (email, password) => {
       try {
         if (!email || !password) {
@@ -182,8 +204,9 @@ export default {
           },
           body: JSON.stringify(payload),
         })
-          .then((response) => {
-            console.log(response);
+          // .then(response => response.json())
+          .then(response => {
+            console.log(response.body);
             state.email = ''
             state.password = ''
             state.username = ''
