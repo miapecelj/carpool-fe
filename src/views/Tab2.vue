@@ -46,7 +46,9 @@
     <div ref="mapDiv" style="width: 100%; height: 50%"/>
     <RidesList v-if="routesSearched" :data="searchedData" />
     </ion-content>
-
+    <ion-modal :is-open="isOpenRef">
+      <Modal :data="modalData" :setOpen="setOpen"></Modal>
+    </ion-modal>
   </ion-page>
 </template>
 
@@ -67,14 +69,20 @@ import {
   IonSelectOption,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonModal
 } from "@ionic/vue";
 import { reactive, ref } from "@vue/reactivity";
 import RidesList from "@/components/RidesList.vue";
 import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
+<<<<<<< HEAD
 import { fetchCoords } from '@/common/google-api.js'
+=======
+import Modal from "@/components/Modal.vue";
+//import {VueMoment} from 'vue-moment'
+>>>>>>> 220b17eec5786571749035ce629638aa14691e07
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
 
@@ -97,6 +105,8 @@ export default {
     IonRow,
     IonCol,
     RidesList,
+    IonModal,
+    Modal
   },
   setup() {
 //     Vue.use(VueMoment, {
@@ -117,10 +127,41 @@ export default {
     const { coords } = useGeolocation()
     const coordsFrom = ref({})
     const coordsTo = ref({})
+<<<<<<< HEAD
     
     const streetFromHandler = () => {
       fetchCoords(state.addressFrom)
         .then(data => {
+=======
+
+    const isOpenRef = ref(false);
+    const setOpen = (state) => isOpenRef.value = state;
+    let modalData = { content: 'Info message' };
+
+    // const fetchCoords = (event) => {
+    //   console.log(from.value, to.value, event.target)
+    //   let addres = state.addressFrom.replace(/\s/g, '+')
+    //   console.log(addres, state.addressFrom)
+    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+    //   console.log(url)
+    //   fetch(url)
+    //     .then(response => response.json())
+    //     .then((data) => {
+    //       console.log(data)
+    //       const streetCoordinates = data.results[0].geometry.location
+    //       coords.value = streetCoordinates
+    //       map.value.setCenter(coords.value)
+    //       marker.value.setPosition(coords.value)
+    //     })
+    // }
+
+    const fetchFromCoords = () => {
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+      console.log(url)
+      fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+>>>>>>> 220b17eec5786571749035ce629638aa14691e07
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsFrom.value = streetCoordinates
@@ -162,7 +203,11 @@ export default {
     })
 
     const onSubmit = () => {
-      console.log(state.date)
+      if (state.date == undefined || state.date == "") {
+        modalData.content = "Please insert date and time for the searched ride."
+        setOpen(true)
+        return;
+      }
       state.date = state.date.toString()
       var dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
       //var dateStringWithTime = moment(new Date(state.date)).format('YYYY-MM-DD HH:MM');
