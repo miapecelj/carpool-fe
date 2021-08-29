@@ -10,6 +10,7 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import {
   IonPage,
   IonTitle,
@@ -19,7 +20,7 @@ import RideListRemovable from "@/components/RideListRemovable.vue";
 import { ref } from "@vue/reactivity";
 import { useStore } from 'vuex'
 import { getTakenRides, getCreatedRides } from '@/common/rides-api.js'
-import { onUpdated } from '@vue/runtime-core';
+import { onBeforeUpdate } from '@vue/runtime-core';
 
 export default {
   name: "Tab4",
@@ -55,15 +56,27 @@ export default {
     //     });
     // };
     
-
-    onUpdated(() => {
-      getCreatedRides(user)
+    getCreatedRides(user)
         .then(data => {
           createdRides.value = data;
-          displayCreated.value = true;  
+          displayCreated.value = true;
         })
       getTakenRides(user)
         .then(data => {
+          takenRides.value = data;
+          displayTaken.value = true;
+        })
+
+    onBeforeUpdate(() => {
+      getCreatedRides(user)
+        .then(data => {
+          displayCreated.value = false;
+          createdRides.value = data;
+          displayCreated.value = true;
+        })
+      getTakenRides(user)
+        .then(data => {
+          displayCreated.value = false;
           takenRides.value = data;
           displayTaken.value = true;
         })

@@ -22,6 +22,7 @@ export default {
     }
   },
   setup(props) {
+    console.log(props.data)
     const rides = ref(props.data);
     console.log(rides.value)
     return {
