@@ -6,14 +6,6 @@
         <ion-input v-model="data.fullName"> </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Home Address</ion-label>
-        <ion-input v-model="data.homeAddress"> </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Work Address</ion-label>
-        <ion-input v-model="data.workAddress"> </ion-input>
-      </ion-item>
-      <ion-item>
         <ion-label position="floating">Phone Number</ion-label>
         <ion-input v-model="data.phone"> </ion-input>
       </ion-item>
@@ -102,8 +94,6 @@ export default {
       id: user.id,
       fullName: user.fullName,
       car: user.car == null ? {} : user.car,
-      homeAddress: user.homeAddress,
-      workAddress: user.workAddress,
       phone: user.phone,
     });
     console.log(data)
@@ -113,8 +103,6 @@ export default {
         phone: data.phone,
         fullName: data.fullName,
         car: data.car,
-        homeAddress: data.homeAddress,
-        workAddress: data.workAddress,
       };
       console.log(payload);
       fetch(
