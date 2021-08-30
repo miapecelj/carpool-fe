@@ -130,6 +130,10 @@ export default {
       )
         .then((response) => response.json())
         .then(() => {
+          user.fullName = payload.fullName
+          user.phone = payload.phone
+          user.car = payload.car
+          store.commit('setUser',user)
           router.push("tab1")
         })
         
