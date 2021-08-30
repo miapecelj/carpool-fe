@@ -10,11 +10,11 @@
         <form @submit.prevent="onSubmit">
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-input @keyup="fetchFromCoords" v-model="state.addressFrom" required></ion-input>
+            <ion-input role="streetFrom" @keyup="streetFromHandler" v-model="state.addressFrom" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-input @keyup="fetchToCoords" v-model="state.addressTo" required></ion-input>
+            <ion-input role="streetTo" @keyup="streetToHandler" v-model="state.addressTo" required></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Date</ion-label>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
 import {
   IonPage,
   IonHeader,
@@ -79,9 +80,9 @@ import { useGeolocation } from '@/hooks/useGeolocation'
 import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { useStore } from 'vuex';
+import { fetchCoords } from '@/common/google-api.js'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
-const GEOCODING_API_KEY = 'AIzaSyBJno4ubcm1KHByphcc054awRasxWBP3a8'
 
 export default {
   name: "Tab3",
@@ -132,39 +133,31 @@ export default {
     const coordsTo = ref({})
 
 
-    const fetchFromCoords = () => {
-      let address = state.addressFrom.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-      console.log(url)
-      fetch(url)
-        .then(response => response.json())
-        .then((data) => {
-          console.log(data)
-          const street = data.results[0].address_components[1].short_name
-          const number = data.results[0].address_components[0].short_name
-          const streetCoordinates = data.results[0].geometry.location
-          coordsFrom.value = {coords: streetCoordinates, street: street, number: number}
-          map.value.setCenter(coords.value)
-          marker.value.setPosition(coords.value)
-        })
-    }
+    // const fetchFromCoords = () => {
+    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+    //   fetch(url)
+    //     .then(response => response.json())
+    //     .then((data) => {
+    //       console.log(data)
+    //       const streetCoordinates = data.results[0].geometry.location
+    //       coordsFrom.value = streetCoordinates
+    //       map.value.setCenter(coordsFrom.value)
+    //       marker.value.setPosition(coordsFrom.value)
+    //     })
+    // }
     
-    const fetchToCoords = () => {
-      let address = state.addressTo.replace(/\s/g, '+')
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-      console.log(url)
-      fetch(url)
-        .then(response => response.json())
-        .then((data) => {
-          console.log(data)
-          const street = data.results[0].address_components[1].short_name
-          const number = data.results[0].address_components[0].short_name
-          const streetCoordinates = data.results[0].geometry.location
-          coordsTo.value = {coords: streetCoordinates, street: street, number: number}
-          map.value.setCenter(coords.value)
-          marker.value.setPosition(coords.value)
-        })
-    }
+    // const fetchToCoords = () => {
+    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
+    //   fetch(url)
+    //     .then(response => response.json())
+    //     .then((data) => {
+    //       console.log(data)
+    //       const streetCoordinates = data.results[0].geometry.location
+    //       coordsTo.value = streetCoordinates
+    //       map.value.setCenter(coordsTo.value)
+    //       marker.value.setPosition(coordsTo.value)
+    //     })
+    // }
     
     const currentPossition = computed(() => ({
       lat: coords.value.lat,
@@ -175,15 +168,15 @@ export default {
     const mapDiv = ref(null)
     onMounted(async () => {
       await loader.load()
-      // map.value = new google.maps.Map(mapDiv.value, {
-      //   center: currentPossition.value,
-      //   zoom: 16
-      // })
-      // marker.value = new google.maps.Marker({
-      //   position: currentPossition.value,
-      //   map: map.value,
-      //   title: "Hello world",
-      // })
+      map.value = new google.maps.Map(mapDiv.value, {
+        center: currentPossition.value,
+        zoom: 16
+      })
+      marker.value = new google.maps.Marker({
+        position: currentPossition.value,
+        map: map.value,
+        title: "Hello world",
+      })
     })
 
      const onSubmit = () => {
@@ -247,6 +240,30 @@ export default {
           setOpen(true)
         });
     };
+
+    
+    const streetFromHandler = () => {
+      fetchCoords(state.addressFrom)
+        .then(data => {
+          console.log(data)
+          const streetCoordinates = data.results[0].geometry.location
+          coordsFrom.value = streetCoordinates
+          map.value.setCenter(coordsFrom.value)
+          marker.value.setPosition(coordsFrom.value)
+        })
+    }
+
+    
+    const streetToHandler = () => {
+      fetchCoords(state.addressTo)
+        .then(data => {
+          console.log(data)
+          const streetCoordinates = data.results[0].geometry.location
+          coordsTo.value = streetCoordinates
+          map.value.setCenter(coordsTo.value)
+          marker.value.setPosition(coordsTo.value)
+       })
+    }
     return {
       onSubmit,
       state,
@@ -257,9 +274,9 @@ export default {
       modalData,
       currentPossition,
       mapDiv,
-      fetchToCoords,
-      fetchFromCoords,
-      store
+      store,
+      streetFromHandler,
+      streetToHandler,
     };
   },
 };
