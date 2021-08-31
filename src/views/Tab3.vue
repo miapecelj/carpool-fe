@@ -132,33 +132,6 @@ export default {
     const coordsFrom = ref({})
     const coordsTo = ref({})
 
-
-    // const fetchFromCoords = () => {
-    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressFrom.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-    //   fetch(url)
-    //     .then(response => response.json())
-    //     .then((data) => {
-    //       console.log(data)
-    //       const streetCoordinates = data.results[0].geometry.location
-    //       coordsFrom.value = streetCoordinates
-    //       map.value.setCenter(coordsFrom.value)
-    //       marker.value.setPosition(coordsFrom.value)
-    //     })
-    // }
-    
-    // const fetchToCoords = () => {
-    //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${state.addressTo.replace(/\s/g, '+')},+Belgrade,+Serbia&key=${GEOCODING_API_KEY}`
-    //   fetch(url)
-    //     .then(response => response.json())
-    //     .then((data) => {
-    //       console.log(data)
-    //       const streetCoordinates = data.results[0].geometry.location
-    //       coordsTo.value = streetCoordinates
-    //       map.value.setCenter(coordsTo.value)
-    //       marker.value.setPosition(coordsTo.value)
-    //     })
-    // }
-    
     const currentPossition = computed(() => ({
       lat: coords.value.lat,
       lng: coords.value.lng,
