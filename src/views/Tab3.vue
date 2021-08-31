@@ -167,15 +167,15 @@ export default {
  
       var payload = {
         from: {
-          latitude: coordsFrom.value.lat,
-          longtitude: coordsFrom.value.lng,
+          latitude: coordsFrom.value.coords.lat,
+          longtitude: coordsFrom.value.coords.lng,
           street: coordsFrom.value.street,
           number: coordsFrom.value.number
 
         },
         to: {
-          latitude: coordsTo.value.lat,
-          longtitude: coordsTo.value.lng,
+          latitude: coordsTo.value.coords.lat,
+          longtitude: coordsTo.value.coords.lng,
           street: coordsTo.value.street,
           number: coordsTo.value.number
         },
@@ -214,30 +214,30 @@ export default {
         });
     };
 
-    
     const streetFromHandler = () => {
       fetchCoords(state.addressFrom)
         .then(data => {
-          console.log(data)
+          const street = data.results[0].address_components[1].short_name
+          const number = data.results[0].address_components[0].short_name
           const streetCoordinates = data.results[0].geometry.location
-          console.log(streetCoordinates)
-          coordsFrom.value = streetCoordinates
-          map.value.setCenter(coordsFrom.value)
-          marker.value.setPosition(coordsFrom.value)
+          coordsFrom.value = {coords: streetCoordinates, street: street, number: number}
+          map.value.setCenter(coordsFrom.value.coords)
+          marker.value.setPosition(coordsFrom.value.coords)
         })
     }
-
     
     const streetToHandler = () => {
       fetchCoords(state.addressTo)
         .then(data => {
-          console.log(data)
+          const street = data.results[0].address_components[1].short_name
+          const number = data.results[0].address_components[0].short_name
           const streetCoordinates = data.results[0].geometry.location
-          coordsTo.value = streetCoordinates
-          map.value.setCenter(coordsTo.value)
-          marker.value.setPosition(coordsTo.value)
+          coordsTo.value = {coords: streetCoordinates, street: street, number: number}
+          map.value.setCenter(coordsTo.value.coords)
+          marker.value.setPosition(coordsTo.value.coords)
        })
     }
+
     return {
       onSubmit,
       state,

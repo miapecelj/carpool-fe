@@ -138,7 +138,6 @@ export default {
     const streetToHandler = () => {
       fetchCoords(state.addressTo)
         .then(data => {
-          console.log(data)
           const streetCoordinates = data.results[0].geometry.location
           coordsTo.value = streetCoordinates
           map.value.setCenter(coordsTo.value)
