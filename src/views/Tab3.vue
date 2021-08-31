@@ -167,15 +167,15 @@ export default {
  
       var payload = {
         from: {
-          latitude: coordsFrom.value.coords.lat,
-          longtitude: coordsFrom.value.coords.lng,
+          latitude: coordsFrom.value.lat,
+          longtitude: coordsFrom.value.lng,
           street: coordsFrom.value.street,
           number: coordsFrom.value.number
 
         },
         to: {
-         latitude: coordsTo.value.coords.lat,
-          longtitude: coordsTo.value.coords.lng,
+          latitude: coordsTo.value.lat,
+          longtitude: coordsTo.value.lng,
           street: coordsTo.value.street,
           number: coordsTo.value.number
         },
@@ -220,6 +220,7 @@ export default {
         .then(data => {
           console.log(data)
           const streetCoordinates = data.results[0].geometry.location
+          console.log(streetCoordinates)
           coordsFrom.value = streetCoordinates
           map.value.setCenter(coordsFrom.value)
           marker.value.setPosition(coordsFrom.value)
