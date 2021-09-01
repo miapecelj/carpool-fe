@@ -166,14 +166,14 @@ export default {
     })
 
     const onSubmit = () => {
-      if (state.date == undefined || state.date == "") {
-        modalData.content = "Please insert date and time for the searched ride."
+      let rideDate = new Date(state.date)
+      let currDate = new Date()
+      if (state.date == undefined || state.date == "" || rideDate.getTime() < currDate.getTime()) {
+        modalData.content = "Please insert date and time for the searched ride. Ride time must be in the future."
         setOpen(true)
         return;
       }
-      state.date = state.date.toString()
       var dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
-      //var dateStringWithTime = moment(new Date(state.date)).format('YYYY-MM-DD HH:MM');
       console.log(dateTime)
       fetch(
         "http://localhost:8080/carpool-be/api/ride/search?dateTime="+dateTime+
@@ -196,7 +196,10 @@ export default {
       currentPossition,
       mapDiv,
       streetFromHandler,
-      streetToHandler
+      streetToHandler,
+       isOpenRef,
+      setOpen,
+      modalData,
     };
   },
 };

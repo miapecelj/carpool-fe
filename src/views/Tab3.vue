@@ -153,14 +153,18 @@ export default {
     })
 
      const onSubmit = () => {
-      console.log(user)
       if (user.car == null) {
-      modalData.content = "You are not allowed to create a ride. Please add data about your car in the profile section."
-      setOpen(true)
-      return;
+        modalData.content = "You are not allowed to create a ride. Please add data about your car in the profile section."
+        setOpen(true)
+        return;
       }
-      console.log(state.date)
-      state.date = state.date.toString()
+      let rideDate = new Date(state.date)
+      let currDate = new Date()
+      if (state.date == undefined || state.date == "" || rideDate.getTime() < currDate.getTime()) {
+        modalData.content = "Please insert date and time for the searched ride. Ride time must be in the future."
+        setOpen(true)
+        return;
+      }
       var dateTime = state.date.split(":")[0]+":"+state.date.split(":")[1]
       console.log(coordsFrom.value)
       console.log(coordsTo.value)
