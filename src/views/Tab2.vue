@@ -106,6 +106,7 @@ export default {
     Modal
   },
   setup() {
+    var dateTime = ""
     let routesSearched = ref(false);
     let searchedData = ref({});
     const state = reactive({
@@ -166,6 +167,7 @@ export default {
     })
 
     const onSubmit = () => {
+      routesSearched.value = false;
       let rideDate = new Date(state.date)
       let currDate = new Date()
       if (state.date == undefined || state.date == "" || rideDate.getTime() < currDate.getTime()) {
@@ -173,7 +175,7 @@ export default {
         setOpen(true)
         return;
       }
-      var dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
+      dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
       console.log(dateTime)
       fetch(
         "http://localhost:8080/carpool-be/api/ride/search?dateTime="+dateTime+
@@ -183,11 +185,12 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          routesSearched.value = true;
           searchedData.value = data;
           console.log(searchedData.value)
+          routesSearched.value = true;
         });
     };
+
     return {
       onSubmit,
       state,

@@ -161,7 +161,7 @@ export default {
       let rideDate = new Date(state.date)
       let currDate = new Date()
       if (state.date == undefined || state.date == "" || rideDate.getTime() < currDate.getTime()) {
-        modalData.content = "Please insert date and time for the searched ride. Ride time must be in the future."
+        modalData.content = "Please insert date and time for the ride. Ride time must be in the future."
         setOpen(true)
         return;
       }
