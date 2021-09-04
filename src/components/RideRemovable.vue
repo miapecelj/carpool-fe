@@ -12,7 +12,7 @@
         <ion-grid>
             <ion-row class="ion-align-items-center">
                 <ion-col size="12" class="ion-text-center">
-                    <ion-button size="small" @click="removeRide(data)">Cancel</ion-button>
+                    <ion-button size="small" @click="remove(user, data)">Cancel</ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import {
   IonCard,
   IonItem,
@@ -49,12 +50,18 @@ export default {
     IonCol,
     IonButton,
   },
-  setup(props) {
+  emits:[
+    'remove'
+  ],
+  setup(props,context) {
     const store = useStore()
     const user = store.getters.getUser
     const data = ref(props.rideData)
-    const removeRide = (data) => { 
-        if(data.driver.id == user.id) {
+    // const removeRide = (data) => { 
+        
+    // };
+    const remove = function(user, data){
+      if(data.driver.id == user.id) {
             //remove ride
             fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
                 method: "DELETE",
@@ -62,9 +69,10 @@ export default {
                     "Content-Type": "application/json",
                 },
             })
-            .then((response) => response.json())
-            .then((data) => {
-            console.log(data);
+            .then((response) => response.text())
+            .then((responseData) => {
+
+              context.emit('remove', data);
             });
         }
         else {
@@ -80,13 +88,19 @@ export default {
             console.log(data);
             });
         }
-    };
+    }
     return {
       data,
       store,
-      removeRide,
+      user,
+      remove,
+      // removeRide,
     }
+  },
+  methods:{
+    
   }
+  
 }
 </script>
 
@@ -94,7 +108,5 @@ export default {
 ion-item{
   --min-height: 20px;
 }
-ion-button{
-    --background: red;
-}
+
 </style>
