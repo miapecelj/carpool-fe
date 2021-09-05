@@ -81,6 +81,7 @@ import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { useStore } from 'vuex';
 import { fetchCoords } from '@/common/google-api.js'
+import { hostName } from '@/helpers/host-name'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
 
@@ -190,7 +191,7 @@ export default {
       }
 
       console.log(JSON.stringify(payload))
-      fetch("http://localhost:8080/carpool-be/api/rides", {
+      fetch(`http://${hostName}:8080/carpool-be/api/rides`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

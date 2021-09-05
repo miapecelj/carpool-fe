@@ -79,6 +79,7 @@ import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { fetchCoords } from '@/common/google-api.js'
 import Modal from "@/components/Modal.vue";
+import { hostName } from '@/helpers/host-name'
 //import {VueMoment} from 'vue-moment'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
@@ -178,10 +179,7 @@ export default {
       dateTime = state.date.split('T')[0]+" "+state.date.split('T')[1].split(":")[0]+":"+state.date.split('T')[1].split(":")[1]
       console.log(dateTime)
       fetch(
-        "http://localhost:8080/carpool-be/api/ride/search?dateTime="+dateTime+
-        "&from.latitude="+coordsFrom.value.lat+"&from.longtitude="+coordsFrom.value.lng+
-        "&to.latitude="+coordsTo.value.lat+"&to.longtitude="+coordsTo.value.lng
-      )
+        `http://${hostName}:8080/carpool-be/api/ride/search?dateTime=${dateTime}&from.latitude=${coordsFrom.value.lat}&from.longtitude=${coordsFrom.value.lng}&to.latitude=${coordsTo.value.lat}&to.longtitude=${coordsTo.value.lng}`)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);

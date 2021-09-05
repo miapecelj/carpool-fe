@@ -39,6 +39,7 @@ import {
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
 import Modal from "@/components/Modal.vue";
+import { hostName } from '@/helpers/host-name'
 
 export default {
   name: "Ride",
@@ -68,7 +69,7 @@ export default {
     const user = store.getters.getUser
 
     const reserveRide = (data) => { 
-      fetch("http://localhost:8080/carpool-be/api/user/addRide?userId="+user.id+"&rideId="+data.id, {
+      fetch(`http://${hostName}:8080/carpool-be/api/user/addRide?userId=${user.id}&rideId=${data.id}`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
