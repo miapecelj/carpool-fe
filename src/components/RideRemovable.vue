@@ -33,6 +33,7 @@ import {
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
+import { hostName } from '@/helpers/host-name'
 
 export default {
   name: "Ride",
@@ -63,7 +64,7 @@ export default {
     const remove = function(user, data){
       if(data.driver.id == user.id) {
             //remove ride
-            fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
+            fetch(`http://${hostName}:8080/carpool-be/api/ride/${data.id}/delete`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export default {
         }
         else {
             //remove taken ride
-            fetch("http://localhost:8080/carpool-be/api/user/removeRide?userId="+user.id+"&rideId="+data.id, {
+            fetch(`http://${hostName}:8080/carpool-be/api/user/removeRide?userId=${user.id}&rideId${data.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

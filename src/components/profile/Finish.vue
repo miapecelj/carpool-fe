@@ -72,6 +72,7 @@ import { IonInput,
 import { reactive } from "@vue/reactivity";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { hostName } from '@/helpers/host-name'
 
 export default {
   name: "Finish",
@@ -119,7 +120,7 @@ export default {
      
       console.log(payload);
       fetch(
-        "http://localhost:8080/carpool-be/api/user/"+user.id,
+        `http://${hostName}:8080/carpool-be/api/user/${user.id}`,
         {
           method: "PATCH",
           headers: {

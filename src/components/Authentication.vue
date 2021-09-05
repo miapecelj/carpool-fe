@@ -84,6 +84,7 @@ import {
 import { reactive, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from 'vuex';
+import { hostName } from '@/helpers/host-name'
 
 // import VueJwtDecode from 'vue-jwt-decode'
 // import jwt-decode from "jwt-decode"
@@ -130,7 +131,7 @@ export default {
 
     // read readableStream with response.text()
     if (route.query.token) {
-      fetch('http://192.168.0.28:8080/carpool-be/api/user/confirm-account', {
+      fetch(`http://${hostName}:8080/carpool-be/api/user/confirm-account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -161,7 +162,7 @@ export default {
           email: email,
           password: password,
         };
-        fetch("http://192.168.0.28:8080/carpool-be/api/user/authenticate", {
+        fetch(`http://${hostName}:8080/carpool-be/api/user/authenticate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -178,7 +179,7 @@ export default {
             state.errorMsg = "No user with such email and password.";
           });
         // await auth.signInWithEmailAndPassword(email, password) ???
-        fetch("http://192.168.0.28:8080/carpool-be/api/user/findByEmail/"+email)
+        fetch(`http://${hostName}:8080/carpool-be/api/user/findByEmail/`+email)
        .then((response) => response.json())
           .then((data) => {
             store.commit('setUser',data)
@@ -205,7 +206,7 @@ export default {
         console.log(JSON.stringify(payload))
 
 
-        fetch("http://192.168.0.28:8080/carpool-be/api/user/registration", {
+        fetch(`http://${hostName}:8080/carpool-be/api/user/registration`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -262,7 +263,7 @@ export default {
   justify-content: center;
 }
 .error-message {
-  color: #842029;
+  color: #842028;
   background-color: #f8d7da;
   border-color: #f5c2c7;
   text-align: center;
