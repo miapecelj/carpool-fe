@@ -130,7 +130,7 @@ export default {
 
     // read readableStream with response.text()
     if (route.query.token) {
-      fetch('http://localhost:8080/carpool-be/api/user/confirm-account', {
+      fetch('http://192.168.0.28:8080/carpool-be/api/user/confirm-account', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -161,7 +161,7 @@ export default {
           email: email,
           password: password,
         };
-        fetch("http://localhost:8080/carpool-be/api/user/authenticate", {
+        fetch("http://192.168.0.28:8080/carpool-be/api/user/authenticate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -178,7 +178,7 @@ export default {
             state.errorMsg = "No user with such email and password.";
           });
         // await auth.signInWithEmailAndPassword(email, password) ???
-        fetch("http://localhost:8080/carpool-be/api/user/findByEmail/"+email)
+        fetch("http://192.168.0.28:8080/carpool-be/api/user/findByEmail/"+email)
        .then((response) => response.json())
           .then((data) => {
             store.commit('setUser',data)
@@ -205,7 +205,7 @@ export default {
         console.log(JSON.stringify(payload))
 
 
-        fetch("http://localhost:8080/carpool-be/api/user/registration", {
+        fetch("http://192.168.0.28:8080/carpool-be/api/user/registration", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
