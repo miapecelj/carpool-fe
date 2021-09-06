@@ -16,7 +16,7 @@
             @submit.prevent="
               mode === AuthMode.SignIn
                 ? signInWithEmailAndPassword(email, password)
-                : signUpWithEmailAndPassword(username, email, password)
+                : signUpWithEmailAndPassword(username, email, password, confirm)
             "
           >
             <ion-item v-if="mode === AuthMode.SignUp">
@@ -30,6 +30,10 @@
             <ion-item>
               <ion-label position="floating"> Password </ion-label>
               <ion-input type="password" v-model="password"></ion-input>
+            </ion-item>
+            <ion-item v-if="mode === AuthMode.SignUp">
+              <ion-label position="floating"> Confirm password </ion-label>
+              <ion-input type="password" v-model="confirm"></ion-input>
             </ion-item>
             <ion-button
               expand="block"
@@ -189,11 +193,15 @@ export default {
       }
     };
 
-    const signUpWithEmailAndPassword = (username, email, password) => {
+    const signUpWithEmailAndPassword = (username, email, password, confirm) => {
       cleanErrorMessages();
       try {
         if (!username || !email || !password) {
           state.errorMsg = "Username, email and password required";
+          return;
+        }
+        if(password!==confirm){
+          state.errorMsg = "Passwords don't match";
           return;
         }
 
