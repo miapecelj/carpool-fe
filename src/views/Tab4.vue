@@ -91,3 +91,11 @@ export default {
   },
 };
 </script>
+<style>
+ion-title{
+  color:rgb(8, 82, 143);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+</style>
