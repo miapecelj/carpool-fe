@@ -45,10 +45,11 @@
       </div>
     <div ref="mapDiv" style="width: 100%; height: 50%"/>
     <RidesList v-if="routesSearched" :data="searchedData" />
-    </ion-content>
+    
     <ion-modal :is-open="isOpenRef">
       <Modal :data="modalData" :setOpen="setOpen"></Modal>
     </ion-modal>
+    </ion-content>
   </ion-page>
 </template>
 

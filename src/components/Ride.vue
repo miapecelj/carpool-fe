@@ -1,15 +1,26 @@
 <template>
   <ion-card>
-      <ion-list class="ride-container">
-        <ion-item>{{`From: ${data.from.street} ${data.from.number}`}}</ion-item>
-        <ion-item>{{`To: ${data.to.street} ${data.to.number}`}}</ion-item>
-        <ion-item>{{`Time: ${data.dateTime}`}}</ion-item>
-        <ion-item>{{`Car: ${data.driver.car.manufacturer} ${data.driver.car.model}`}}</ion-item>
-        <ion-item>{{`Color: ${data.driver.car.color}`}}</ion-item>
-        <ion-item>{{`Registration number: ${data.driver.car.id}`}}</ion-item>
-        <ion-item>{{`Price per person: ${data.pricePerPerson}`}}</ion-item>
-        <ion-item>{{`Driver: ${data.driver.username}`}}</ion-item>
-         <ion-grid>
+       <ion-list class="ride-container">
+       <ion-item lines="none" id="dest">
+         {{`${data.from.street} ${data.from.number}`}} <ion-icon :icon="arrowForwardOutline"></ion-icon>{{`${data.to.street} ${data.to.number}`}}
+        </ion-item> 
+        <ion-item>
+          <ion-label><ion-icon :icon="timeOutline"></ion-icon></ion-label>
+          <ion-item lines="none">{{`${data.dateTime}`}}</ion-item>
+        </ion-item>
+        <ion-item>
+          <ion-label><ion-icon :icon="car"></ion-icon></ion-label>
+          <ion-item lines="none">{{`${data.driver.car.color} ${data.driver.car.manufacturer} ${data.driver.car.model} ${data.driver.car.id}`}}</ion-item>
+        </ion-item>
+        <ion-item>
+          <ion-label><ion-icon :icon="cashOutline"></ion-icon></ion-label>
+          <ion-item lines="none">{{`${data.pricePerPerson} din`}}</ion-item>
+        </ion-item>
+        <ion-item>
+          <ion-label><ion-icon :icon="personOutline"></ion-icon> </ion-label>
+          <ion-item lines="none">{{`${data.driver.username}`}}</ion-item>
+        </ion-item>
+        <ion-grid>
             <ion-row class="ion-align-items-center">
                 <ion-col size="12" class="ion-text-center">
                     <ion-button size="small" @click="reserveRide(data)">Reserve</ion-button>
@@ -39,7 +50,8 @@ import {
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
 import Modal from "@/components/Modal.vue";
-
+import { IonIcon } from '@ionic/vue';
+import { car, timeOutline, cashOutline, arrowForwardOutline, personOutline} from 'ionicons/icons';
 export default {
   name: "Ride",
   props: {
@@ -57,6 +69,7 @@ export default {
     IonButton,
     IonModal,
     Modal,
+    IonIcon
   },
   setup(props) {
     const isOpenRef = ref(false);
@@ -97,7 +110,12 @@ export default {
       Modal,
       isOpenRef,
       setOpen,
-      modalData
+      modalData,
+       car,
+      timeOutline,
+      cashOutline,
+      arrowForwardOutline,
+      personOutline,
     }
   }
 }
