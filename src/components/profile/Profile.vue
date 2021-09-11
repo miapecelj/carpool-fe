@@ -1,7 +1,10 @@
 <template>
   <ion-content>
     <div class="header-content-container">
+      <div id="header">
       <ion-text> Profile </ion-text>
+      <ion-button @click="logout" color="danger">Logout</ion-button>
+      </div>
       <div class="avatar-container">
         <ion-avatar>
           <img
@@ -14,21 +17,42 @@
     </div>
 
     <div class="main-content-container">
-      <div v-if="!isFinished" class="finish-profile">
-          <ion-grid>
-            <ion-row class="ion-align-items-center">
-              <ion-col size="12" class="ion-text-center">
-                <ion-button @click="finishProfile" size="large" color="danger">Click to finish profile</ion-button>
+      
+          <ion-grid id="user-info">
+            <ion-row class="info-row">
+              <ion-col v-if="store.getters.getUser.fullName!=null">
+                <ion-label>Full name:</ion-label>
+                <ion-text>{{`${store.getters.getUser.fullName}`}}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="ion-align-items-center">
-              <ion-col size="12" class="ion-text-center">
-                <ion-button @click="logout" size="large" color="primary">Logout</ion-button>
+            <ion-row class="info-row">
+              <ion-col v-if="store.getters.getUser.phone!=null">
+                <ion-label>Phone number:</ion-label>
+                <ion-text>{{`${store.getters.getUser.phone}`}}</ion-text>
               </ion-col>
             </ion-row>
-          </ion-grid>
+            <ion-row class="info-row">
+              <ion-col v-if="store.getters.getUser.phone!=null">
+                <ion-label>Car:</ion-label>
+                <ion-text>{{`${store.getters.getUser.car.manufacturer}`}}</ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="info-row">
+              <ion-col v-if="store.getters.getUser.car!=null">
+                <ion-label>Model:</ion-label>
+                <ion-text>{{`${store.getters.getUser.car.model}`}}</ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="info-row">
+              <ion-col v-if="store.getters.getUser.car.id!=null">
+                <ion-label>Plate number:</ion-label>
+                <ion-text>{{`${store.getters.getUser.car.id}`}}</ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-grid>  
+          <ion-button @click="finishProfile" size="large" color="success">Update profile</ion-button>
       </div>
-    </div>
+
   </ion-content>
 </template>
 
@@ -62,12 +86,7 @@ export default {
     const router = useRouter()
     const isFinished = ref(false)
     const finishTabOpen = ref(false)
-    // const fetchUserData = async () => {
-      // const response = await fetch('http://localhost:8080/carpool-be/api/user?username=miapecelj')
-      // const data = await response.json()
-      // console.log(data)
-      // router.push({path: '/tabs/finish'})
-    // }
+
     const finishProfile = () => { 
       router.push({ path: "/tabs/finish" });
     };
@@ -125,5 +144,35 @@ export default {
     font-size: 1.5em;
     font-weight: 100;
   }
+#header{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding:2px;
+}
+.main-content-container{
+  height:60%;
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  padding:10px;
+}
+#user-info{
+  height: 100%;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.info-row{
+  border-radius: 25px;
+  border: 2px solid;
+  border-color: #1367b4;
+  width:100%;
+  color: #1367b4;
+}
+
+
 
 </style>
