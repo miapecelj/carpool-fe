@@ -46,6 +46,7 @@ import {
   IonCol,
   IonButton,
   IonModal,
+  IonLabel
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
@@ -69,7 +70,8 @@ export default {
     IonButton,
     IonModal,
     Modal,
-    IonIcon
+    IonIcon,
+    IonLabel
   },
   setup(props) {
     const isOpenRef = ref(false);

@@ -42,6 +42,7 @@ import {
   IonCol,
   IonButton,
   alertController,
+  IonLabel
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
@@ -63,7 +64,8 @@ export default {
     IonRow,
     IonCol,
     IonButton,
-    IonIcon
+    IonIcon,
+    IonLabel
   },
   
   emits:[

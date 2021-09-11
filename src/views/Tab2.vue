@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content >
+    <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Search</ion-title>
