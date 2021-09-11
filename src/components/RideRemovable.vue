@@ -107,7 +107,7 @@ export default {
       presentAlertConfirm()
         .then(() => {
           // handle sucessfull ride cancelation
-          if(data.driver.id == user.id) {
+          if(data.driver.id === user.id) {
               //remove ride
               fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
                   method: "DELETE",
@@ -128,9 +128,9 @@ export default {
                       "Content-Type": "application/json",
                   },
               })
-              .then((response) => response.json())
-              .then((data) => {
-              console.log(data);
+              .then((response) => response.text())
+              .then((responseData) => {
+                context.emit('remove', data);
               });
           } 
         })
