@@ -5,6 +5,7 @@ import Tab1 from '@/views/Tab1.vue';
 import Tab2 from '@/views/Tab2.vue';
 import Tab3 from '@/views/Tab3.vue';
 import Tab4 from '@/views/Tab4.vue';
+import Tab5 from '@/views/Tab5.vue';
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
         path: 'tab4',
         component: Tab4
         // component: () => import('@/views/Tab4.vue')
+      },
+      {
+        path: 'tab5',
+        component: Tab5
+        // component: () => import('@/views/Tab5.vue')
       },
       {
         path: 'finish',

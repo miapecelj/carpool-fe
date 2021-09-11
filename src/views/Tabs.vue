@@ -19,6 +19,10 @@
           <ion-icon :icon="car" />
           <ion-label>My rides</ion-label>
         </ion-tab-button>
+        <ion-tab-button tab="tab5" @click="$router.push('tab5')">
+          <ion-icon :icon="notifications" />
+          <ion-label>Notifications</ion-label>
+        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
@@ -26,7 +30,7 @@
 
 <script>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { search, car, person, add } from 'ionicons/icons';
+import { search, car, person, add, notifications } from 'ionicons/icons';
 
 export default {
   name: 'Tabs',
@@ -38,7 +42,8 @@ export default {
       search, 
       car, 
       person,
-      add
+      add,
+      notifications
     }
   }
 }
