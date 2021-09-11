@@ -37,24 +37,6 @@ export default {
     let takenRides = ref({});
     let displayCreated = ref(false);
     let displayTaken = ref(false);
-    // const getCreatedRides = () => {
-    //   fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingByUserId/"+user.id)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       createdRides.value = data;
-    //       displayCreated.value = true;
-    //       console.log(createdRides.value);
-    //     });
-    // };
-    // const getTakenRides = () => {
-    //   fetch("http://localhost:8080/carpool-be/api/ride/findUpcomingTakenRidesByUserId/"+user.id)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       takenRides.value = data;
-    //       displayTaken.value = true;
-    //       console.log(takenRides.value);
-    //     });
-    // };
     
     getCreatedRides(user)
         .then(data => {
@@ -92,7 +74,7 @@ export default {
 };
 </script>
 <style>
-ion-title{
+ion-title {
   color:rgb(8, 82, 143);
   font-weight: bold;
   font-size: 30px;

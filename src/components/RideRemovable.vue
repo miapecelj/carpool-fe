@@ -41,6 +41,7 @@ import {
   IonRow,
   IonCol,
   IonButton,
+  alertController,
 } from "@ionic/vue"
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
@@ -73,36 +74,70 @@ export default {
     const user = store.getters.getUser
     const data = ref(props.rideData)
     // const removeRide = (data) => { 
-        
     // };
-    const remove = function(user, data){
-      if(data.driver.id == user.id) {
-            //remove ride
-            fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => response.text())
-            .then((responseData) => {
+    console.log(data.value)
 
-              context.emit('remove', data);
-            });
-        }
-        else {
-            //remove taken ride
-            fetch("http://localhost:8080/carpool-be/api/user/removeRide?userId="+user.id+"&rideId="+data.id, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-            console.log(data);
-            });
-        }
+    const presentAlertConfirm = async () => {
+      
+      return new Promise((resolve,reject) => {
+        alertController
+          .create({
+            header: 'Cancel Ride',
+            message: 'Are you sure?',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => reject(false),
+              },
+              {
+                text: "I'm sure",
+                handler: () => resolve(true),
+              },
+            ],
+          })
+          .then(alert => {
+            alert.present()
+          })
+      })
+      
+    }
+
+    const remove = function(user, data){
+      presentAlertConfirm()
+        .then(() => {
+          // handle sucessfull ride cancelation
+          if(data.driver.id == user.id) {
+              //remove ride
+              fetch("http://localhost:8080/carpool-be/api/ride/"+data.id+"/delete", {
+                  method: "DELETE",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+              })
+              .then((response) => response.text())
+              .then((responseData) => {
+                context.emit('remove', data);
+              });
+          }
+          else {
+              //remove taken ride
+              fetch("http://localhost:8080/carpool-be/api/user/removeRide?userId="+user.id+"&rideId="+data.id, {
+                  method: "DELETE",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+              })
+              .then((response) => response.json())
+              .then((data) => {
+              console.log(data);
+              });
+          } 
+        })
+        .catch(() => {
+          // handle unsuccesfull ride cancelation
+          return
+        })
     }
     return {
       data,

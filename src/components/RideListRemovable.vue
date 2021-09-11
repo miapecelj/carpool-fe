@@ -27,6 +27,7 @@ export default {
   setup(props) {
     console.log(props.data)
     const rides = ref(props.data);
+    console.log(rides.value)
     const removeRide = (rideData) => {
       let i = 0
       const new_rides = []
