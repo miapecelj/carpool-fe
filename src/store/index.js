@@ -40,9 +40,9 @@ export default createStore({
             }
             state.notifications = unAnsweredNotifications
         },
-        // removeNotification(state, payload) {
-        //     state.notifications = this.state.notifications.filter
-        // }
+        removeNotification(state, payload) {
+            state.notifications = state.notifications.filter((notification) => notification.id !== payload.id)
+        }
     },
     getters: {
         getUser: state => state.user,

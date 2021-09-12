@@ -2,7 +2,8 @@
     <ion-card>
       <ion-list v-if="!data.answered">
        <ion-item lines="none" id="dest">
-         {{`${data.message}`}} 
+           <ion-icon  :icon="close-circle-outline"></ion-icon>
+           <ion-text>{{`${data.message}`}}</ion-text>
          <!-- <ion-icon :icon="arrowForwardOutline"></ion-icon>{{`${data.to.street} ${data.to.number}`}} -->
         </ion-item> 
         <ion-item v-if="data.rideRequest">
@@ -45,16 +46,22 @@
 <script>
 import { 
     IonCard,
+    IonIcon,
+    // IonLabel,
+    IonText,
     IonList,
     IonGrid,
     IonRow,
     IonCol,
 } from "@ionic/vue";
 import { ref } from '@vue/reactivity'
-// import { useStore } from 'vuex';
+import { useStore } from 'vuex';
 export default {
     components: {
         IonCard,
+        IonIcon,
+        // IonLabel,
+        IonText,
         IonList,
         IonGrid,
         IonRow,
@@ -67,7 +74,7 @@ export default {
     },
     setup(props) {
         const data = ref(props.notification)
-        // const store = useStore()
+        const store = useStore()
         console.log(data.value)
 
         const onResolve = (payload) => {
@@ -90,7 +97,7 @@ export default {
                         method: 'PUT'
                     })
                         .then(() => {
-                            // store.dispatch('fetchNotifications').then(() => {})
+                            store.commit('removeNotification', data.value)
                             data.value.answered = true
                         })
                         .catch((error) => console.log(error))
@@ -107,6 +114,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+ion-icon {
+    min-width: 20%;
+    min-height: 90%
+}
+
+ion-text {
+    max-width: 80%;
+}
 
 </style>
