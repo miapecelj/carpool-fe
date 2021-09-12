@@ -1,23 +1,23 @@
 <template>
-  <ion-content>
+
     <h1 align="center">DISPLAY MY RIDES</h1>
     <ion-item v-if="rides.length==0">There are no rides for that date/time.</ion-item>
     <Ride v-for="ride in rides" :ride-data="ride" :key="ride.id" />
-  </ion-content>
+
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
 
 import Ride from "@/components/Ride.vue";
-import {IonContent, IonItem} from "@ionic/vue";
+// import {IonContent, IonItem} from "@ionic/vue";
 
 export default {
   name: "RidesList",
   components: {
     Ride,
-    IonContent,
-    IonItem,
+    // IonContent,
+    // IonItem,
   },
   props: {
     data: {
