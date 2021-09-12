@@ -2,7 +2,7 @@
     <ion-card>
       <ion-list v-if="!data.answered">
        <ion-item lines="none" id="dest">
-           <ion-icon :icon="closeCircleOutline"></ion-icon>
+           <ion-icon @click="onRemove" :icon="closeOutline"></ion-icon>
            <ion-text>{{`${data.message}`}}</ion-text>
          <!-- <ion-icon :icon="arrowForwardOutline"></ion-icon>{{`${data.to.street} ${data.to.number}`}} -->
         </ion-item> 
@@ -54,7 +54,7 @@ import {
     IonRow,
     IonCol,
 } from "@ionic/vue";
-import { closeCircleOutline} from 'ionicons/icons';
+import { closeOutline} from 'ionicons/icons';
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
 export default {
@@ -77,6 +77,17 @@ export default {
         const data = ref(props.notification)
         const store = useStore()
         console.log(data.value)
+
+        const onRemove = () => {
+            fetch(`http://localhost:8080/carpool-be/api/notification/${data.value.id}`, {
+                method: 'PUT'
+            })
+                .then(() => {
+                    store.commit('removeNotification', data.value)
+                    data.value.answered = true
+                })
+                .catch((error) => console.log(error))
+        }
 
         const onResolve = (payload) => {
             fetch(`http://localhost:8080/carpool-be/api/takenRide`, {
@@ -109,7 +120,8 @@ export default {
         return {
             data,
             onResolve,
-            closeCircleOutline
+            onRemove,
+            closeOutline
         }
     }
 
@@ -119,13 +131,13 @@ export default {
 <style scoped>
 
 ion-icon {
-    min-width: 20%;
+    min-width: 15%;
     min-height: 90%;
-    color:red;
 }
 
 ion-text {
-    max-width: 80%;
+    padding-left: 1em;
+    max-width: 85%;
 }
 
 </style>

@@ -21,7 +21,7 @@
         </ion-tab-button>
         <ion-tab-button class="notifications" tab="tab5" @click="$router.push('tab5')">
           <ion-icon :icon="notifications" />
-          <ion-badge color="danger">{{ notificationNumber }}</ion-badge>
+          <ion-badge v-if="notificationNumber !== 0" color="danger">{{ notificationNumber }}</ion-badge>
           <ion-label>Notifications</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
