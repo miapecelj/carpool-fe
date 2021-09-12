@@ -176,18 +176,19 @@ export default {
           .then((data) => {
             // console.log(VueJwtDecode.decode(data.jwt))
             window.localStorage.setItem("jwt", data.jwt);
-            router.push({ path: "/tabs/tab1" });
+            fetch("http://localhost:8080/carpool-be/api/user/findByEmail/"+email)
+              .then((response) => response.json())
+              .then((data) => {
+                store.commit('setUser',data)
+                store.dispatch('fetchNotifications').then(() => { router.push({ path: "/tabs/tab1" }) })
+                // console.log(JSON.stringify(store.getters.getUser))
+              })
           })
           .catch(() => {
             state.errorMsg = "No user with such email and password.";
           });
         // await auth.signInWithEmailAndPassword(email, password) ???
-        fetch("http://localhost:8080/carpool-be/api/user/findByEmail/"+email)
-       .then((response) => response.json())
-          .then((data) => {
-            store.commit('setUser',data)
-            console.log(JSON.stringify(store.getters.getUser))
-          })
+        
       } catch (error) {
         state.errorMsg = error.message;
       }

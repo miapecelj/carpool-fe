@@ -19,8 +19,9 @@
           <ion-icon :icon="car" />
           <ion-label>My rides</ion-label>
         </ion-tab-button>
-        <ion-tab-button tab="tab5" @click="$router.push('tab5')">
+        <ion-tab-button class="notifications" tab="tab5" @click="$router.push('tab5')">
           <ion-icon :icon="notifications" />
+          <ion-badge color="danger">{{ notificationNumber }}</ion-badge>
           <ion-label>Notifications</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -29,22 +30,38 @@
 </template>
 
 <script>
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
+import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonBadge } from '@ionic/vue';
 import { search, car, person, add, notifications } from 'ionicons/icons';
+import { useStore } from 'vuex';
+import { computed } from '@vue/reactivity';
 
 export default {
   name: 'Tabs',
-  components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage, IonRouterOutlet },
+  components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage, IonRouterOutlet, IonBadge },
   setup() {
+    const store = useStore()
     
+    const notificationNumber = computed(() => store.getters.getNotificationsNumber)
     
     return {
       search, 
       car, 
       person,
       add,
-      notifications
+      notifications,
+      notificationNumber
     }
   }
 }
 </script>
+
+<style scoped>
+.notifications {
+  position: relative;
+}
+
+.notifications ion-badge {
+  position: absolute;
+  top: 0;
+}
+</style>

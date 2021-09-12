@@ -29,34 +29,38 @@ export default {
     const store = useStore()
     const user = store.getters.getUser
     const notifications = ref([])
-    const displayedNotifications = ref(true)
+    const displayedNotifications = ref(false)
 
-    fetch(`http://localhost:8080/carpool-be/api/notification/${user.id}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        notifications.value = data
-        displayedNotifications.value = true
-        console.log(data)
-      })
-      .catch(error => console.log(error))
+    notifications.value = store.getters.getNotifications
+    displayedNotifications.value = true
 
+
+    // fetch(`http://localhost:8080/carpool-be/api/notification/${user.id}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   }
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     notifications.value = data
+    //     displayedNotifications.value = true
+    //     console.log(data)
+    //   })
+    //   .catch(error => console.log(error))
+    
     onBeforeUpdate(() => {
-      displayedNotifications.value = false
-      fetch(`http://localhost:8080/carpool-be/api/notification/${user.id}`, {
-      method: 'GET'
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          notifications.value = data
-          displayedNotifications.value = true
-          console.log(data)
-        })
-        .catch(error => console.log(error))  
+      // displayedNotifications.value = false
+      // fetch(`http://localhost:8080/carpool-be/api/notification/${user.id}`, {
+      // method: 'GET'
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     notifications.value = data
+      //     displayedNotifications.value = true
+      //     console.log(data)
+      //   })
+      //   .catch(error => console.log(error))  
     })
 
     return {

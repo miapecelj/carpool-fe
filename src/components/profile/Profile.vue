@@ -17,34 +17,33 @@
     </div>
 
     <div class="main-content-container">
-      
           <ion-grid id="user-info">
-            <ion-row class="info-row">
-              <ion-col v-if="store.getters.getUser.fullName!=null">
+            <ion-row v-if="store.getters.getUser.fullName" class="info-row">
+              <ion-col>
                 <ion-label>Full name:</ion-label>
                 <ion-text>{{`${store.getters.getUser.fullName}`}}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="info-row">
-              <ion-col v-if="store.getters.getUser.phone!=null">
+            <ion-row v-if="store.getters.getUser.phone" class="info-row">
+              <ion-col>
                 <ion-label>Phone number:</ion-label>
                 <ion-text>{{`${store.getters.getUser.phone}`}}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="info-row">
-              <ion-col v-if="store.getters.getUser.phone!=null">
+            <ion-row v-if="store.getters.getUser.phone" class="info-row">
+              <ion-col>
                 <ion-label>Car:</ion-label>
                 <ion-text>{{`${store.getters.getUser.car.manufacturer}`}}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="info-row">
-              <ion-col v-if="store.getters.getUser.car!=null">
+            <ion-row v-if="store.getters.getUser.car" class="info-row">
+              <ion-col>
                 <ion-label>Model:</ion-label>
                 <ion-text>{{`${store.getters.getUser.car.model}`}}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="info-row">
-              <ion-col v-if="store.getters.getUser.car.id!=null">
+            <ion-row v-if="store.getters.getUser.car" class="info-row">
+              <ion-col>
                 <ion-label>Plate number:</ion-label>
                 <ion-text>{{`${store.getters.getUser.car.id}`}}</ion-text>
               </ion-col>
@@ -89,11 +88,13 @@ export default {
 
     const finishProfile = () => { 
       router.push({ path: "/tabs/finish" });
+      isFinished.value = true
     };
 
     const logout = () => {
       window.localStorage.removeItem('jwt')
-      router.push({ path: "/" })
+      window.location.href = ''
+      // router.push({ path: "/" })
     }
     return {
       isFinished,

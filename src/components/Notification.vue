@@ -1,5 +1,5 @@
 <template>
-<ion-card>
+    <ion-card>
       <ion-list v-if="!data.answered">
        <ion-item lines="none" id="dest">
          {{`${data.message}`}} 
@@ -51,6 +51,7 @@ import {
     IonCol,
 } from "@ionic/vue";
 import { ref } from '@vue/reactivity'
+// import { useStore } from 'vuex';
 export default {
     components: {
         IonCard,
@@ -66,6 +67,7 @@ export default {
     },
     setup(props) {
         const data = ref(props.notification)
+        // const store = useStore()
         console.log(data.value)
 
         const onResolve = (payload) => {
@@ -88,6 +90,7 @@ export default {
                         method: 'PUT'
                     })
                         .then(() => {
+                            // store.dispatch('fetchNotifications').then(() => {})
                             data.value.answered = true
                         })
                         .catch((error) => console.log(error))

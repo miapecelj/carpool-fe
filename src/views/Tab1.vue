@@ -9,6 +9,7 @@ import {
   IonPage,
 } from "@ionic/vue";
 import Profile from "@/components/profile/Profile.vue";
+// import { useStore } from 'vuex';
 
 export default {
   name: "Tab1",
@@ -16,5 +17,9 @@ export default {
     Profile,
     IonPage,
   },
+  setup() {
+    // const store = useStore()
+    // console.log(store.getters.getNotifications)
+  }
 };
 </script>
