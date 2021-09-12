@@ -17,7 +17,7 @@
     </div>
 
     <div class="main-content-container">
-          <ion-grid id="user-info">
+          <ion-grid v-if="store.getters.getUser.fullName || store.getters.getters.getUser.car || store.getters.getUser.car" id="user-info">
             <ion-row v-if="store.getters.getUser.fullName" class="info-row">
               <ion-col>
                 <ion-label>Full name:</ion-label>
@@ -144,6 +144,7 @@ export default {
     color: seashell;
     font-size: 1.5em;
     font-weight: 100;
+    height:30%;
   }
 #header{
   display:flex;
@@ -152,18 +153,17 @@ export default {
   padding:2px;
 }
 .main-content-container{
-  height:60%;
+  height:70%;
   width:100%;
   display:flex;
   flex-direction: column;
   padding:10px;
 }
 #user-info{
-  height: 100%;
   width:100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
 }
 .info-row{
