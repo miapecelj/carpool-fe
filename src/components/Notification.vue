@@ -2,7 +2,7 @@
     <ion-card>
       <ion-list v-if="!data.answered">
        <ion-item lines="none" id="dest">
-           <ion-icon  :icon="close-circle-outline"></ion-icon>
+           <ion-icon :icon="closeCircleOutline"></ion-icon>
            <ion-text>{{`${data.message}`}}</ion-text>
          <!-- <ion-icon :icon="arrowForwardOutline"></ion-icon>{{`${data.to.street} ${data.to.number}`}} -->
         </ion-item> 
@@ -54,6 +54,7 @@ import {
     IonRow,
     IonCol,
 } from "@ionic/vue";
+import { closeCircleOutline} from 'ionicons/icons';
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex';
 export default {
@@ -108,6 +109,7 @@ export default {
         return {
             data,
             onResolve,
+            closeCircleOutline
         }
     }
 
@@ -118,7 +120,8 @@ export default {
 
 ion-icon {
     min-width: 20%;
-    min-height: 90%
+    min-height: 90%;
+    color:red;
 }
 
 ion-text {
