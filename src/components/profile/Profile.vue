@@ -12,40 +12,40 @@
             alt=""
           />
         </ion-avatar>
-        <ion-text>{{`${store.getters.getUser.username}`}}</ion-text>
+        <ion-text>{{ store.getters.getUser.username }}</ion-text>
       </div>
     </div>
 
     <div class="main-content-container">
-          <ion-grid v-if="store.getters.getUser.fullName || store.getters.getters.getUser.car || store.getters.getUser.car" id="user-info">
+          <ion-grid id="user-info">
             <ion-row v-if="store.getters.getUser.fullName" class="info-row">
               <ion-col>
                 <ion-label>Full name:</ion-label>
-                <ion-text>{{`${store.getters.getUser.fullName}`}}</ion-text>
+                <ion-text>{{ store.getters.getUser.fullName }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row v-if="store.getters.getUser.phone" class="info-row">
               <ion-col>
                 <ion-label>Phone number:</ion-label>
-                <ion-text>{{`${store.getters.getUser.phone}`}}</ion-text>
+                <ion-text>{{ store.getters.getUser.phone }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row v-if="store.getters.getUser.phone" class="info-row">
               <ion-col>
                 <ion-label>Car:</ion-label>
-                <ion-text>{{`${store.getters.getUser.car.manufacturer}`}}</ion-text>
+                <ion-text>{{ store.getters.getUser.car.manufacturer }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row v-if="store.getters.getUser.car" class="info-row">
               <ion-col>
                 <ion-label>Model:</ion-label>
-                <ion-text>{{`${store.getters.getUser.car.model}`}}</ion-text>
+                <ion-text>{{ store.getters.getUser.car.model }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row v-if="store.getters.getUser.car" class="info-row">
               <ion-col>
                 <ion-label>Plate number:</ion-label>
-                <ion-text>{{`${store.getters.getUser.car.id}`}}</ion-text>
+                <ion-text>{{ store.getters.getUser.car.id }}</ion-text>
               </ion-col>
             </ion-row>
           </ion-grid>  
