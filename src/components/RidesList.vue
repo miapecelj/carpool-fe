@@ -10,14 +10,14 @@
 import { ref } from "@vue/reactivity";
 
 import Ride from "@/components/Ride.vue";
-// import {IonContent, IonItem} from "@ionic/vue";
+import {IonItem} from "@ionic/vue";
+import { useStore } from 'vuex'
 
 export default {
   name: "RidesList",
   components: {
     Ride,
-    // IonContent,
-    // IonItem,
+    IonItem,
   },
   props: {
     data: {
@@ -25,6 +25,10 @@ export default {
     }
   },
   setup(props) {
+    const store = useStore()
+    const user = store.getters.getUser
+    console.log(user)
+
     const rides = ref(props.data);
     console.log(rides.value)
     // const isFinished = ref(false);
@@ -36,6 +40,8 @@ export default {
 
     return {
       rides,
+      store
+
     };
   },
 };

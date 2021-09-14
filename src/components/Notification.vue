@@ -47,11 +47,12 @@
 import { 
     IonCard,
     IonIcon,
-    // IonLabel,
+    IonItem,
     IonText,
     IonList,
     IonGrid,
     IonRow,
+    IonButton,
     IonCol,
 } from "@ionic/vue";
 import { closeOutline} from 'ionicons/icons';
@@ -61,12 +62,13 @@ export default {
     components: {
         IonCard,
         IonIcon,
-        // IonLabel,
+        IonItem,
         IonText,
         IonList,
         IonGrid,
         IonRow,
         IonCol,
+        IonButton
     },
     props: {
         notification: {

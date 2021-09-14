@@ -30,7 +30,7 @@
                 <ion-text>{{ store.getters.getUser.phone }}</ion-text>
               </ion-col>
             </ion-row>
-            <ion-row v-if="store.getters.getUser.phone" class="info-row">
+            <ion-row v-if="store.getters.getUser.car" class="info-row">
               <ion-col>
                 <ion-label>Car:</ion-label>
                 <ion-text>{{ store.getters.getUser.car.manufacturer }}</ion-text>
@@ -63,7 +63,8 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    IonButton
+    IonButton,
+    IonLabel,
   } from "@ionic/vue";
 import { ref } from '@vue/reactivity';
 import { useStore } from 'vuex'
@@ -78,7 +79,8 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    IonButton
+    IonButton,
+    IonLabel,
   },
   setup() {
     const store = useStore()
