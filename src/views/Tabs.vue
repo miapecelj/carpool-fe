@@ -64,4 +64,8 @@ export default {
   position: absolute;
   top: 0;
 }
+
+ion-tab-button ion-label {
+  font-size: 80%;
+}
 </style>
