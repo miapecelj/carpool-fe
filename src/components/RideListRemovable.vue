@@ -1,7 +1,5 @@
 <template>
-  <ion-content>
     <RideRemovable v-for="ride in rides" @remove="removeRide" :ride-data="ride" :key="ride.id" />
-  </ion-content>
 </template>
 
 <script>
@@ -11,13 +9,11 @@
 import { ref } from "@vue/reactivity";
 
 import RideRemovable from "@/components/RideRemovable.vue";
-import {IonContent} from "@ionic/vue";
 
 export default {
   name: "RideListRemovable",
   components: {
-    RideRemovable,
-    IonContent
+    RideRemovable
   },
   props: {
     data: {
