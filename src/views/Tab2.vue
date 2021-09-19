@@ -80,6 +80,7 @@ import { computed, onMounted } from '@vue/runtime-core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { fetchCoords } from '@/common/google-api.js'
 import Modal from "@/components/Modal.vue";
+import { useStore } from 'vuex';
 
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCqxL0u4LclvZzl4Acz3qyZAWIl285US7A'
@@ -116,6 +117,9 @@ export default {
       date: "",
       numberOfPassengers: "1",
     });
+
+    const user = useStore().getters.getUser
+    
     const map = ref(null)
     const marker = ref(null)
 
@@ -187,7 +191,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          searchedData.value = data;
+          searchedData.value = data.filter((ride) => ride.driver.id !== user.id);
           console.log(searchedData.value)
           routesSearched.value = true;
         });
